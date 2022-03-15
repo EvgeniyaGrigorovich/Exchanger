@@ -1,9 +1,6 @@
 package com.devgenius.exchanger.domain.usecase
 
-import com.devgenius.exchanger.data.repository.IExchangerRepository
-import com.devgenius.exchanger.domain.base.BaseResult
-import com.devgenius.exchanger.domain.entity.Currency
-import kotlinx.coroutines.flow.Flow
+import com.devgenius.exchanger.domain.repository.IExchangerRepository
 
 /**
  * Юзкейс сохранения валюты в избранное

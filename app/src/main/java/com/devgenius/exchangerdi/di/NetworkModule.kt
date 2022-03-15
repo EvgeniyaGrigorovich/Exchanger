@@ -3,7 +3,7 @@ package com.devgenius.exchangerdi.di
 import com.devgenius.exchanger.BuildConfig
 import com.devgenius.exchanger.data.ExchangeApi
 import com.devgenius.exchanger.data.repository.ExchangerRepository
-import com.devgenius.exchanger.data.repository.IExchangerRepository
+import com.devgenius.exchanger.domain.repository.IExchangerRepository
 import com.devgenius.exchanger.data.storage.ExchangerRemoteStorage
 import com.devgenius.exchanger.data.storage.IExchangerRemoteStorage
 import com.devgenius.exchanger.data.entity.CurrencyDTO

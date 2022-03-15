@@ -1,4 +1,4 @@
-package com.devgenius.exchanger.data.repository
+package com.devgenius.exchanger.domain.repository
 
 
 import com.devgenius.exchanger.domain.base.BaseResult
