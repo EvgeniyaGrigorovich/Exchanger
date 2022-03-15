@@ -1,0 +1,25 @@
+package com.devgenius.exchanger.presentation.converters
+
+import com.devgenius.exchanger.models.domain.Currency
+import com.devgenius.exchanger.models.domain.Rate
+import com.devgenius.exchanger.presentation.models.CurrencyViewModel
+import com.devgenius.exchanger.presentation.models.RateViewModel
+import com.devgenius.utils.OneWayConverter
+
+/**
+ * Конвертер из [Currency] в [CurrencyViewModel]
+ *
+ * @param ratesConverter конвертер из [Rate] в [RateViewModel]
+ *
+ * @author Evgeniia Grigorovich
+ */
+internal class CurrencyToCurrencyViewModelConverter(
+    private val ratesConverter: OneWayConverter<List<Rate>, List<RateViewModel>>
+): OneWayConverter<Currency, CurrencyViewModel> {
+
+    override fun convert(from: Currency): CurrencyViewModel {
+        return CurrencyViewModel(success = from.success,
+        base = from.base,
+        rates = ratesConverter.convert(from.rates))
+    }
+}
