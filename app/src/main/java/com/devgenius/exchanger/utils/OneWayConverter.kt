@@ -1,4 +1,4 @@
-package com.devgenius.utils
+package com.devgenius.exchanger.utils
 
 /**
  * Маппер из сущности [F] В сущность [T]
@@ -8,7 +8,7 @@ package com.devgenius.utils
  *
  * @author Evgeniia Grigorovich
  */
-internal interface OneWayConverter<F, T> {
+interface OneWayConverter<F, T> {
 
     /**
      * F -> T

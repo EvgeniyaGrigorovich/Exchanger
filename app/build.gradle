@@ -22,6 +22,12 @@ android {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
+
+        debug {
+            buildConfigField "String", "API", "\"http://api.exchangeratesapi.io/v1/latest?\""
+            buildConfigField "String", "API_KEY", "\"faeb10dccd3ed248d9fcbb126aeb1bc5\""
+            buildConfigField "String", "API_KEY_LABEL", "\"access_key\""
+        }
     }
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
@@ -31,7 +37,7 @@ android {
         jvmTarget = '1.8'
     }
 
-    buildFeatures{
+    buildFeatures {
         viewBinding true
     }
 }
@@ -62,6 +68,6 @@ dependencies {
 
     //jackson
     implementation group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: '2.13.2'
-
+    implementation group: 'com.squareup.retrofit2', name: 'converter-jackson', version: '2.9.0'
 
 }

@@ -1,10 +1,10 @@
 package com.devgenius.exchanger.presentation.converters
 
-import com.devgenius.exchanger.models.domain.Currency
-import com.devgenius.exchanger.models.domain.Rate
+import com.devgenius.exchanger.domain.entity.Currency
+import com.devgenius.exchanger.domain.entity.Rate
 import com.devgenius.exchanger.presentation.models.CurrencyViewModel
 import com.devgenius.exchanger.presentation.models.RateViewModel
-import com.devgenius.utils.OneWayConverter
+import com.devgenius.exchanger.utils.OneWayConverter
 
 /**
  * Конвертер из [Currency] в [CurrencyViewModel]

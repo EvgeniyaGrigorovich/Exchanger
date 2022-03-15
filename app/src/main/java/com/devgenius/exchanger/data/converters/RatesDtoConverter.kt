@@ -1,8 +1,8 @@
 package com.devgenius.exchanger.data.converters
 
 import com.devgenius.exchanger.models.data.RateDTO
-import com.devgenius.exchanger.models.domain.Rate
-import com.devgenius.utils.OneWayConverter
+import com.devgenius.exchanger.domain.entity.Rate
+import com.devgenius.exchanger.utils.OneWayConverter
 
 /**
  * Конвертер из [Rate] в [RateDTO]

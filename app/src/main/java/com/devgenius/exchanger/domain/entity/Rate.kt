@@ -1,4 +1,4 @@
-package com.devgenius.exchanger.models.domain
+package com.devgenius.exchanger.domain.entity
 
 /**
  * Модель валюты
