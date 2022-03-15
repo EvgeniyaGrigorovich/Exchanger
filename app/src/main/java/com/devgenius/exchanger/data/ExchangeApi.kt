@@ -1,7 +1,6 @@
 package com.devgenius.exchanger.data
 
-import com.devgenius.exchanger.models.data.CurrencyDTO
-import retrofit2.Call
+import com.devgenius.exchanger.data.entity.CurrencyDTO
 import retrofit2.Response
 import retrofit2.http.GET
 

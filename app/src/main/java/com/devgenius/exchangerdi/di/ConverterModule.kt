@@ -2,7 +2,7 @@ package com.devgenius.exchangerdi.di
 
 import com.devgenius.exchanger.data.converters.CurrencyDTOConverter
 import com.devgenius.exchanger.data.converters.RatesDtoConverter
-import com.devgenius.exchanger.models.data.CurrencyDTO
+import com.devgenius.exchanger.data.entity.CurrencyDTO
 import com.devgenius.exchanger.domain.entity.Currency
 import com.devgenius.exchanger.presentation.converters.CurrencyToCurrencyViewModelConverter
 import com.devgenius.exchanger.presentation.converters.RatesToRatesViewModelConverter

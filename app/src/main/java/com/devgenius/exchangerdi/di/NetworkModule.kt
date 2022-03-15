@@ -6,7 +6,7 @@ import com.devgenius.exchanger.data.repository.ExchangerRepository
 import com.devgenius.exchanger.data.repository.IExchangerRepository
 import com.devgenius.exchanger.data.storage.ExchangerRemoteStorage
 import com.devgenius.exchanger.data.storage.IExchangerRemoteStorage
-import com.devgenius.exchanger.models.data.CurrencyDTO
+import com.devgenius.exchanger.data.entity.CurrencyDTO
 import com.devgenius.exchanger.domain.entity.Currency
 import com.devgenius.exchanger.utils.OneWayConverter
 import dagger.Module

@@ -1,4 +1,4 @@
-package com.devgenius.exchanger.models.data
+package com.devgenius.exchanger.data.entity
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties
 import com.fasterxml.jackson.annotation.JsonProperty

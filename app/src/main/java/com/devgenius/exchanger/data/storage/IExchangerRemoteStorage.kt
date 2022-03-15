@@ -1,7 +1,6 @@
 package com.devgenius.exchanger.data.storage
 
-import com.devgenius.exchanger.models.data.CurrencyDTO
-import kotlinx.coroutines.flow.Flow
+import com.devgenius.exchanger.data.entity.CurrencyDTO
 import retrofit2.Response
 
 /**
