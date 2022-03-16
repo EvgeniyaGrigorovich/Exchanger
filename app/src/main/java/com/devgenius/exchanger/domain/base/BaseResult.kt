@@ -9,6 +9,6 @@ import com.devgenius.exchanger.domain.entity.Currency
  *
  */
 sealed class BaseResult<out T : Any> {
-    data class Success<T : Any>(val data: Currency?) : BaseResult<T>()
+    data class Success<T : Any>(val data: Currency) : BaseResult<T>()
     object Error : BaseResult<Nothing>()
 }
