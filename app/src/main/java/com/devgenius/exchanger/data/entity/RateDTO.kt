@@ -2,6 +2,7 @@ package com.devgenius.exchanger.data.entity
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties
 import com.fasterxml.jackson.annotation.JsonProperty
+import com.google.gson.annotations.SerializedName
 
 /**
  * Модель курса валюты
@@ -12,12 +13,11 @@ import com.fasterxml.jackson.annotation.JsonProperty
  *
  * @author Evgeniia Grigorovich
  */
-@JsonIgnoreProperties(ignoreUnknown = true)
 data class RateDTO(
 
-    @param:JsonProperty("currency")
+    @SerializedName("currency")
     val currency: String,
 
-    @param:JsonProperty("value")
+    @SerializedName("value")
     val value: Double
 )

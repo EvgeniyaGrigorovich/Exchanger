@@ -2,6 +2,7 @@ package com.devgenius.exchanger.data.entity
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties
 import com.fasterxml.jackson.annotation.JsonProperty
+import com.google.gson.annotations.SerializedName
 import java.util.*
 
 /**
@@ -19,19 +20,19 @@ import java.util.*
 @JsonIgnoreProperties(ignoreUnknown = true)
 data class CurrencyDTO(
 
-    @param:JsonProperty("success")
+    @SerializedName("success")
     val success: Boolean,
 
-    @param:JsonProperty("timestamp")
+    @SerializedName("timeStamp")
     val timeStamp: Long,
 
-    @param:JsonProperty("base")
+    @SerializedName("base")
     val base: String,
 
-    @param:JsonProperty("date")
+    @SerializedName("date")
     val date: Date,
 
-    @param:JsonProperty("rates")
+    @SerializedName("rates")
     val rates: List<RateDTO>
 
 )
