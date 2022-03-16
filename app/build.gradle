@@ -24,7 +24,7 @@ android {
         }
 
         debug {
-            buildConfigField "String", "API", "\"http://api.exchangeratesapi.io/v1/latest?\""
+            buildConfigField "String", "API", "\"http://api.exchangeratesapi.io/v1/\""
             buildConfigField "String", "API_KEY", "\"faeb10dccd3ed248d9fcbb126aeb1bc5\""
             buildConfigField "String", "API_KEY_LABEL", "\"access_key\""
         }
@@ -35,10 +35,11 @@ android {
     }
     kotlinOptions {
         jvmTarget = '1.8'
+        freeCompilerArgs = ['-Xjvm-default=compatibility']
     }
 
     buildFeatures {
-        viewBinding true
+        viewBinding = true
     }
 }
 
@@ -57,6 +58,7 @@ dependencies {
 
     //retrofit
     implementation 'com.squareup.retrofit2:retrofit:2.9.0'
+    implementation "com.squareup.retrofit2:converter-gson:2.9.0"
 
     //dagger
     implementation 'com.google.dagger:dagger:2.40.4'
@@ -69,5 +71,14 @@ dependencies {
     //jackson
     implementation group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: '2.13.2'
     implementation group: 'com.squareup.retrofit2', name: 'converter-jackson', version: '2.9.0'
+
+    // Activity KTX for viewModels()
+    var activity_ktx_version = "1.4.0"
+    implementation "androidx.activity:activity-ktx:$activity_ktx_version"
+    implementation("androidx.lifecycle:lifecycle-runtime-ktx:$lifecycle_version")
+
+    //viewBinding
+    implementation 'com.github.kirich1409:viewbindingpropertydelegate:1.5.3'
+
 
 }
