@@ -15,15 +15,15 @@ interface IExchangerRepository {
     /**
      * Получить список валют по сети
      */
-    fun getCurrencyFromRemote(): Flow<BaseResult<Currency>>
+   suspend fun getCurrencyFromRemote(): Flow<BaseResult<Currency>>
 
     /**
      * Получить список избранных валют
      */
-    fun getCurrencyFromLocal(): Flow<Currency>
+    suspend fun getCurrencyFromLocal(): Flow<Currency>
 
     /**
      * Сохранить валюту в избранное
      */
-    fun addCurrencyToFavourite()
+    suspend fun addCurrencyToFavourite()
 }

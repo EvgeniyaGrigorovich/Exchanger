@@ -1,5 +1,6 @@
 package com.devgenius.exchanger.data.storage
 
+import com.devgenius.exchanger.BuildConfig
 import com.devgenius.exchanger.data.ExchangeApi
 import com.devgenius.exchanger.data.entity.CurrencyDTO
 import retrofit2.Response
@@ -12,6 +13,6 @@ internal class ExchangerRemoteStorage(
 ) : IExchangerRemoteStorage {
 
     override suspend fun getCurrencyFromRemote(): Response<CurrencyDTO> {
-        return exchangerApi.getCurrency()
+        return exchangerApi.getCurrency(BuildConfig.API_KEY)
     }
 }

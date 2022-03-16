@@ -1,5 +1,6 @@
 package com.devgenius.exchangerdi.di
 
+import androidx.lifecycle.ViewModelProvider
 import com.devgenius.exchanger.BuildConfig
 import com.devgenius.exchanger.data.ExchangeApi
 import com.devgenius.exchanger.data.repository.ExchangerRepository
@@ -8,11 +9,14 @@ import com.devgenius.exchanger.data.storage.ExchangerRemoteStorage
 import com.devgenius.exchanger.data.storage.IExchangerRemoteStorage
 import com.devgenius.exchanger.data.entity.CurrencyDTO
 import com.devgenius.exchanger.domain.entity.Currency
+import com.devgenius.exchanger.presentation.MainActivity
+import com.devgenius.exchanger.presentation.MainViewModel
 import com.devgenius.exchanger.utils.OneWayConverter
 import dagger.Module
 import dagger.Provides
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
+import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.converter.jackson.JacksonConverterFactory
 import javax.inject.Singleton
 
@@ -30,13 +34,11 @@ class NetworkModule {
                 val original = chain.request()
                 val request =
                     original.newBuilder()
-                        .header(BuildConfig.API_KEY_LABEL, BuildConfig.API_KEY_LABEL)
+//                        .header(BuildConfig.API_KEY_LABEL, BuildConfig.API_KEY)
                         .build()
                 chain.proceed(request)
             }
             .build()
-
-
     }
 
     /**
@@ -47,7 +49,7 @@ class NetworkModule {
     fun provideRetrofit(okHttpClient: OkHttpClient): Retrofit {
         return Retrofit.Builder()
             .baseUrl(BuildConfig.API)
-            .addConverterFactory(JacksonConverterFactory.create())
+            .addConverterFactory(GsonConverterFactory.create())
             .client(okHttpClient)
             .build()
     }
@@ -72,5 +74,5 @@ class NetworkModule {
         currencyConverter: OneWayConverter<CurrencyDTO, Currency>
     ): IExchangerRepository =
         ExchangerRepository(remoteStorage, currencyConverter)
-
 }
+
