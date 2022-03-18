@@ -1,13 +1,11 @@
-package com.devgenius.exchanger.data
+package com.devgenius.exchanger.data.api
 
 import com.devgenius.exchanger.BuildConfig
 import com.devgenius.exchanger.data.entity.CurrencyDTO
-import com.devgenius.exchangerdi.di.NetworkModule
+import com.devgenius.exchangerdi.modules.NetworkModule
 import dagger.Module
 import retrofit2.Response
-import retrofit2.http.Body
 import retrofit2.http.GET
-import retrofit2.http.Path
 import retrofit2.http.Query
 
 /**

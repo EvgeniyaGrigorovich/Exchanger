@@ -1,7 +1,7 @@
 package com.devgenius.exchanger.data.storage
 
 import com.devgenius.exchanger.BuildConfig
-import com.devgenius.exchanger.data.ExchangeApi
+import com.devgenius.exchanger.data.api.ExchangeApi
 import com.devgenius.exchanger.data.entity.CurrencyDTO
 import retrofit2.Response
 

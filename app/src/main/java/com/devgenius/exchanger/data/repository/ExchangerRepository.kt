@@ -1,7 +1,7 @@
 package com.devgenius.exchanger.data.repository
 
 import com.devgenius.exchanger.data.storage.IExchangerRemoteStorage
-import com.devgenius.exchanger.domain.base.BaseResult
+import com.devgenius.exchanger.domain.common.base.BaseResult
 import com.devgenius.exchanger.data.entity.CurrencyDTO
 import com.devgenius.exchanger.domain.entity.Currency
 import com.devgenius.exchanger.domain.repository.IExchangerRepository

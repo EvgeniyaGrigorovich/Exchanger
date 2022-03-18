@@ -1,4 +1,4 @@
-package com.devgenius.exchangerdi.di
+package com.devgenius.exchangerdi.modules
 
 import com.devgenius.exchanger.data.converters.CurrencyDTOConverter
 import com.devgenius.exchanger.data.converters.RatesDtoConverter

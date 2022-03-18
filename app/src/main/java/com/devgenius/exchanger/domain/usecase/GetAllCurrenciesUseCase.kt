@@ -1,7 +1,7 @@
 package com.devgenius.exchanger.domain.usecase
 
 import com.devgenius.exchanger.domain.repository.IExchangerRepository
-import com.devgenius.exchanger.domain.base.BaseResult
+import com.devgenius.exchanger.domain.common.base.BaseResult
 import com.devgenius.exchanger.domain.entity.Currency
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
