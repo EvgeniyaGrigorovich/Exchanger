@@ -1,25 +1,29 @@
 package com.devgenius.exchanger.data.converters
 
-import com.devgenius.exchanger.data.entity.RateDTO
 import com.devgenius.exchanger.domain.entity.Rate
 import com.devgenius.exchanger.utils.OneWayConverter
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 /**
- * Конвертер из [Rate] в [RateDTO]
+ * Конвертер из [RatesDTO] в [List<Rate>]
  *
  * @author Evgeniia Grigorovich
  **/
-internal class RatesDtoConverter : OneWayConverter<List<RateDTO>, List<Rate>> {
+internal class RatesDtoConverter : OneWayConverter<Map<String, Double>, List<Rate>> {
 
-    override fun convert(from: List<RateDTO>): List<Rate> {
+    override fun convert(from: Map<String, Double>): List<Rate> {
+        val scope = CoroutineScope(Dispatchers.Default)
         val resultRates = arrayListOf<Rate>()
-        for (rate in from) {
-            val newRate = Rate(
-                currency = rate.currency,
-                value = rate.value
-            )
-            resultRates.add(newRate)
+        scope.launch {
+
+            for (rate in from) {
+                val newRate = Rate(rate.key, rate.value)
+                resultRates.add(newRate)
+            }
         }
+
         return resultRates
     }
 }

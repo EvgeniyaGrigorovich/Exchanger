@@ -1,7 +1,6 @@
 package com.devgenius.exchanger.data.entity
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties
-import com.fasterxml.jackson.annotation.JsonProperty
 import com.google.gson.annotations.SerializedName
 import java.util.*
 
@@ -33,6 +32,6 @@ data class CurrencyDTO(
     val date: Date,
 
     @SerializedName("rates")
-    val rates: List<RateDTO>
+    val rates: Map<String, Double>
 
 )

@@ -1,7 +1,6 @@
 package com.devgenius.exchanger.data.converters
 
 import com.devgenius.exchanger.data.entity.CurrencyDTO
-import com.devgenius.exchanger.data.entity.RateDTO
 import com.devgenius.exchanger.domain.entity.Currency
 import com.devgenius.exchanger.domain.entity.Rate
 import com.devgenius.exchanger.utils.OneWayConverter
@@ -12,7 +11,7 @@ import com.devgenius.exchanger.utils.OneWayConverter
  * @author Evgeniia Grigorovich
  */
 internal class CurrencyDTOConverter(
-    private val ratesDtoConverter: OneWayConverter<List<RateDTO>, List<Rate>>
+    private val ratesDtoConverter: OneWayConverter<Map<String, Double>, List<Rate>>
 ) : OneWayConverter<CurrencyDTO, Currency> {
 
     override fun convert(from: CurrencyDTO): Currency {
@@ -22,4 +21,5 @@ internal class CurrencyDTOConverter(
             rates = ratesDtoConverter.convert(from.rates)
         )
     }
+
 }

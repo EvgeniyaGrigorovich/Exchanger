@@ -15,7 +15,7 @@ import com.devgenius.exchanger.utils.OneWayConverter
  */
 internal class CurrencyToCurrencyViewModelConverter(
     private val ratesConverter: OneWayConverter<List<Rate>, List<RateViewModel>>
-): OneWayConverter<Currency, CurrencyViewModel> {
+) : OneWayConverter<Currency, CurrencyViewModel> {
 
     override fun convert(from: Currency): CurrencyViewModel {
         return CurrencyViewModel(success = from.success,

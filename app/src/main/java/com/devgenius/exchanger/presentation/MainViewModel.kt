@@ -3,7 +3,7 @@ package com.devgenius.exchanger.presentation
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.devgenius.exchanger.domain.action.MainScreenAction
-import com.devgenius.exchanger.domain.base.BaseResult
+import com.devgenius.exchanger.domain.common.base.BaseResult
 import com.devgenius.exchanger.domain.entity.Rate
 import com.devgenius.exchanger.domain.usecase.GetAllCurrenciesUseCase
 import com.devgenius.exchanger.domain.usecase.GetFavouriteCurrenciesUseCase
@@ -36,7 +36,7 @@ class MainViewModel @Inject constructor(
     val mainScreenState: StateFlow<MainScreenViewState> = states
 
     private val rates =
-        MutableStateFlow<List<Rate>>(mutableListOf())
+        MutableStateFlow<List<Rate>>(listOf())
     val mainScreenRates: StateFlow<List<Rate>> = rates
 
     private fun setLoading() {
@@ -119,28 +119,28 @@ class MainViewModel @Inject constructor(
             return
         }
 
-        viewModelScope.launch {
-            when (newSortedState) {
-                is SortedState.ByAlphabet -> if (newSortedState.isAscending) {
-                    rates.value.sortedByDescending {
-                        it.currency
-                    }
-                } else {
-                    rates.value.sortedByDescending {
-                        it.currency
-                    }.reversed()
-                }
-
-                is SortedState.ByValue -> if (newSortedState.isAscending) {
-                    rates.value.sortedByDescending {
-                        it.currency
-                    }
-                } else {
-                    rates.value.sortedByDescending {
-                        it.currency
-                    }.reversed()
-                }
-            }
-        }
+//        viewModelScope.launch {
+//            when (newSortedState) {
+//                is SortedState.ByAlphabet -> if (newSortedState.isAscending) {
+//                    rates.value.sortedByDescending {
+//                        it.currency
+//                    }
+//                } else {
+//                    rates.value.sortedByDescending {
+//                        it.currency
+//                    }.reversed()
+//                }
+//
+//                is SortedState.ByValue -> if (newSortedState.isAscending) {
+//                    rates.value.sortedByDescending {
+//                        it.currency
+//                    }
+//                } else {
+//                    rates.value.sortedByDescending {
+//                        it.currency
+//                    }.reversed()
+//                }
+//            }
+//        }
     }
 }
