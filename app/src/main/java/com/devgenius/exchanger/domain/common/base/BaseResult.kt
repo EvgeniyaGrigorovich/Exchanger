@@ -1,4 +1,4 @@
-package com.devgenius.exchanger.domain.base
+package com.devgenius.exchanger.domain.common.base
 
 import com.devgenius.exchanger.domain.entity.Currency
 

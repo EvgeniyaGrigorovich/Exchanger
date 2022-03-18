@@ -1,4 +1,4 @@
-package com.devgenius.exchangerdi.di
+package com.devgenius.exchangerdi.modules
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
@@ -6,7 +6,11 @@ import com.devgenius.exchanger.presentation.MainViewModel
 import javax.inject.Inject
 import javax.inject.Provider
 
-
+/**
+ * Фабрика создания [MainViewModel]
+ *
+ * @author Evgeniia Grigorovih
+ */
 class MainViewModelFactory @Inject constructor(
     viewModelProvider: Provider<MainViewModel>
 ) : ViewModelProvider.Factory {
