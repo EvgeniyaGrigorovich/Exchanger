@@ -2,16 +2,23 @@ package com.devgenius.exchangerdi.modules
 
 import com.devgenius.exchanger.data.api.ExchangeApi
 import com.devgenius.exchanger.data.entity.CurrencyDTO
+import com.devgenius.exchanger.data.local.db.RatesDao
+import com.devgenius.exchanger.data.local.db.dbmodel.RateDbModel
+import com.devgenius.exchanger.data.local.storage.IRatesLocalStorage
+import com.devgenius.exchanger.data.local.storage.RatesLocalStorage
 import com.devgenius.exchanger.data.repository.ExchangerRepository
 import com.devgenius.exchanger.data.storage.ExchangerRemoteStorage
 import com.devgenius.exchanger.data.storage.IExchangerRemoteStorage
 import com.devgenius.exchanger.domain.entity.Currency
+import com.devgenius.exchanger.domain.entity.Rate
 import com.devgenius.exchanger.domain.repository.IExchangerRepository
 import com.devgenius.exchanger.utils.OneWayConverter
 import dagger.Module
 import dagger.Provides
+import kotlinx.coroutines.flow.Flow
 import retrofit2.Retrofit
 import javax.inject.Singleton
+
 
 @Module
 class ApiModule {
@@ -39,7 +46,25 @@ class ApiModule {
     @Singleton
     fun providesExchangerRepository(
         remoteStorage: IExchangerRemoteStorage,
-        currencyConverter: OneWayConverter<CurrencyDTO, Currency>
+        localStorage: IRatesLocalStorage,
+        currencyConverter: OneWayConverter<CurrencyDTO, Currency>,
+        rateToRateDbModelConverter: OneWayConverter<Rate, RateDbModel>,
+        rateDbModelToRateConverter: OneWayConverter<Flow<List<RateDbModel>>, Flow<List<Rate>>>
     ): IExchangerRepository =
-        ExchangerRepository(remoteStorage, currencyConverter)
+        ExchangerRepository(
+            remoteStorage,
+            localStorage,
+            currencyConverter,
+            rateToRateDbModelConverter,
+            rateDbModelToRateConverter
+        )
+
+    /**
+     * Предоставляет [RatesLocalStorage] в граф зависимостей
+     */
+    @Provides
+    @Singleton
+    fun provideLocalStorage(ratesDao: RatesDao): IRatesLocalStorage {
+        return RatesLocalStorage(ratesDao)
+    }
 }
