@@ -1,7 +1,10 @@
 package com.devgenius.exchanger.presentation
 
+import android.app.Application
+import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.devgenius.exchanger.R
 import com.devgenius.exchanger.domain.action.MainScreenAction
 import com.devgenius.exchanger.domain.common.base.BaseResult
 import com.devgenius.exchanger.domain.entity.Rate
@@ -12,6 +15,7 @@ import com.devgenius.exchanger.presentation.states.MainScreenGlobalState
 import com.devgenius.exchanger.presentation.states.MainScreenInternalState
 import com.devgenius.exchanger.presentation.states.MainScreenViewState
 import com.devgenius.exchanger.presentation.states.SortedState
+import com.devgenius.exchangerdi.app.App
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -19,13 +23,13 @@ import javax.inject.Inject
 class MainViewModel @Inject constructor(
     private val getAllCurrenciesUseCase: GetAllCurrenciesUseCase,
     private val getFavouriteCurrenciesUseCase: GetFavouriteCurrenciesUseCase,
-    private val saveCurrencyToFavouritesUseCase: SaveCurrencyToFavouritesUseCase
+    private val saveCurrencyToFavouritesUseCase: SaveCurrencyToFavouritesUseCase,
 ) : ViewModel() {
 
     private val states =
         MutableStateFlow<MainScreenViewState>(
             MainScreenViewState(
-                globalState = MainScreenGlobalState.LOADING,
+                globalState = MainScreenGlobalState.INIT,
                 internalState = MainScreenInternalState(
                     isAllCurrenciesShown = true,
                     isFavouritesShown = false,
@@ -41,13 +45,13 @@ class MainViewModel @Inject constructor(
 
     private fun setLoading() {
         states.value = states.value.copy(
-            globalState = MainScreenGlobalState.LOADING
+            globalState = MainScreenGlobalState.LOADING(true)
         )
     }
 
     private fun hideLoading() {
         states.value = states.value.copy(
-            globalState = MainScreenGlobalState.NORMAL
+            globalState = MainScreenGlobalState.LOADING(false)
         )
     }
 
@@ -93,15 +97,16 @@ class MainViewModel @Inject constructor(
             }
                 .catch { exception ->
                     hideLoading()
-                    //сообщение об ошибке
+                    showMessage(exception.message.toString())
                 }
                 .collect { result ->
+                    hideLoading()
                     when (result) {
                         is BaseResult.Success -> {
                             rates.value = result.data.rates
                         }
                         is BaseResult.Error -> {
-                            //сообщение об ошибке
+//                            showMessage()
                         }
                     }
                 }
@@ -142,5 +147,11 @@ class MainViewModel @Inject constructor(
 //                }
 //            }
 //        }
+    }
+
+    private fun showMessage(message: String){
+        states.value = states.value.copy(
+            globalState = MainScreenGlobalState.ERROR(message)
+        )
     }
 }

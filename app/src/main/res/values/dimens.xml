@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- currency item-->
+    <dimen name="currency_item_width">32dp</dimen>
+
+    <!-- text size -->
+    <dimen name="currency_label_text_size">18sp</dimen>
+
+    <!-- margin size -->
+    <dimen name="rate_item_margin">4dp</dimen>
+    <dimen name="recycle_margin">4dp</dimen>
+
+</resources>

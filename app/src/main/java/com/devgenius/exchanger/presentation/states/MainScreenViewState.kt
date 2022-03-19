@@ -29,22 +29,27 @@ data class MainScreenInternalState(
 /**
  * Клаас с текущим состоянием экрана
  */
-enum class MainScreenGlobalState {
+sealed class MainScreenGlobalState {
 
     /**
      * Загрузка
+     *
+     * @param isLoading состояние сазрузки
      */
-     LOADING,
+    data class LOADING ( val isLoading : Boolean) : MainScreenGlobalState()
+
 
     /**
-     * Данные загружены
+     * Состояние ошибки
+     *
+     * @param message сообщение ошибки
      */
-     NORMAL,
+    data class ERROR (val message: String): MainScreenGlobalState()
 
     /**
-     * Поризошла ошибка
+     * Начальный стейт
      */
-     ERROR,
+    object INIT : MainScreenGlobalState()
 }
 
 /**
@@ -55,19 +60,19 @@ sealed class SortedState {
     /**
      * По умолчанию
      */
-    object Default: SortedState()
+    object Default : SortedState()
 
     /**
      * По алфавиту
      *
      * @property isAscending true - по возрастанию, false - по убыванию
      */
-    data class ByAlphabet(val isAscending: Boolean): SortedState()
+    data class ByAlphabet(val isAscending: Boolean) : SortedState()
 
     /**
      * По Значению
      *
      * @property isAscending true - по возрастанию, false - по убыванию
      */
-    data class ByValue(val isAscending: Boolean): SortedState()
+    data class ByValue(val isAscending: Boolean) : SortedState()
 }
