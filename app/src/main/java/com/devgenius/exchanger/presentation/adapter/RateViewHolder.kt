@@ -11,6 +11,8 @@ internal class RateViewHolder(
     private val binding: RateItemBinding
 ) : RecyclerView.ViewHolder(binding.root) {
 
+    val buttonFavourites = binding.buttonAddToFavourite
+
     fun bind(rate: Rate) {
         binding.currencyName.text = rate.currency
         binding.currencyPrice.text = rate.value.toString()

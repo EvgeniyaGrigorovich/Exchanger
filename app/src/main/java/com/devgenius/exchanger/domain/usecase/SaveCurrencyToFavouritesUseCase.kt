@@ -14,7 +14,7 @@ class SaveCurrencyToFavouritesUseCase  @Inject constructor(
 ) {
 
     suspend fun invoke(rate: Rate){
-        //todo
+        repository.addCurrencyToFavourite(rate)
     }
 
 }

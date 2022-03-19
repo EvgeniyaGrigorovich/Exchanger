@@ -1,10 +1,7 @@
 package com.devgenius.exchanger.presentation
 
-import android.app.Application
-import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.devgenius.exchanger.R
 import com.devgenius.exchanger.domain.action.MainScreenAction
 import com.devgenius.exchanger.domain.common.base.BaseResult
 import com.devgenius.exchanger.domain.entity.Rate
@@ -15,7 +12,6 @@ import com.devgenius.exchanger.presentation.states.MainScreenGlobalState
 import com.devgenius.exchanger.presentation.states.MainScreenInternalState
 import com.devgenius.exchanger.presentation.states.MainScreenViewState
 import com.devgenius.exchanger.presentation.states.SortedState
-import com.devgenius.exchangerdi.app.App
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -78,14 +74,7 @@ class MainViewModel @Inject constructor(
                     //сообщение об ошибке
                 }
                 .collect { result ->
-                    when (result) {
-                        is BaseResult.Success -> {
-                            rates.value = result.data.rates
-                        }
-                        is BaseResult.Error -> {
-                            //сообщение об ошибке
-                        }
-                    }
+                    rates.value = result
                 }
         }
     }
@@ -117,6 +106,10 @@ class MainViewModel @Inject constructor(
         viewModelScope.launch {
             saveCurrencyToFavouritesUseCase.invoke(rate)
         }
+
+        states.value = states.value.copy(
+            globalState = MainScreenGlobalState.SHOW_MWSSAGES("Добавлено")
+        )
     }
 
     private fun changeSort(oldSortedState: SortedState, newSortedState: SortedState) {
@@ -149,9 +142,9 @@ class MainViewModel @Inject constructor(
 //        }
     }
 
-    private fun showMessage(message: String){
+    private fun showMessage(message: String) {
         states.value = states.value.copy(
-            globalState = MainScreenGlobalState.ERROR(message)
+            globalState = MainScreenGlobalState.SHOW_MWSSAGES(message)
         )
     }
 }

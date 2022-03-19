@@ -40,11 +40,11 @@ sealed class MainScreenGlobalState {
 
 
     /**
-     * Состояние ошибки
+     * Состояние показа сообщения
      *
      * @param message сообщение ошибки
      */
-    data class ERROR (val message: String): MainScreenGlobalState()
+    data class SHOW_MWSSAGES (val message: String): MainScreenGlobalState()
 
     /**
      * Начальный стейт

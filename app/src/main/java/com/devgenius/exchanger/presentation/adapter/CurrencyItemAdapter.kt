@@ -5,9 +5,15 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.devgenius.exchanger.domain.entity.Rate
 
+/**
+ * Класс адаптера для главного экрана
+ *
+ * @author Evgeniia Grigorovich
+ */
 internal class CurrencyItemAdapter(
    private var rateList: List<Rate>
 ) : RecyclerView.Adapter<RateViewHolder>() {
+    var onSaveRateClickListener: ((Rate) -> Unit)? = null
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RateViewHolder {
         return RateViewHolder.from(parent)
@@ -18,6 +24,10 @@ internal class CurrencyItemAdapter(
     override fun onBindViewHolder(holder: RateViewHolder, position: Int) {
         val rate = rateList[position]
         holder.bind(rate)
+
+        holder.buttonFavourites.setOnClickListener {
+            onSaveRateClickListener?.invoke(rate)
+        }
     }
 
     fun setList(list: List<Rate>){
@@ -26,6 +36,4 @@ internal class CurrencyItemAdapter(
         this.rateList = list
         differResult.dispatchUpdatesTo(this)
     }
-
-
 }

@@ -3,6 +3,7 @@ package com.devgenius.exchanger.presentation
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -37,18 +38,25 @@ class MainActivity : AppCompatActivity() {
 
     override fun onResume() {
         super.onResume()
-        viewModel.executeAction(MainScreenAction.OpenMainScreen(sortedState = SortedState.Default))
 
         observeProducts()
         observeState()
     }
 
     private fun setupRecyclerView() {
+        viewModel.executeAction(MainScreenAction.OpenMainScreen(sortedState = SortedState.Default))
 
         binding.currencyRecycler.apply {
             layoutManager = LinearLayoutManager(this@MainActivity)
             adapter = currencyAdapter
+        }
 
+        currencyAdapter.onSaveRateClickListener = { rate ->
+            viewModel.executeAction(
+                MainScreenAction.SaveToFavourites(
+                    rate
+                )
+            )
         }
     }
 
@@ -57,7 +65,6 @@ class MainActivity : AppCompatActivity() {
             viewModel.mainScreenRates
                 .collect { rates ->
                     if (rates.isNotEmpty()) {
-                        Log.i("RATE", "Rate ${rates.get(0).currency}")
                         binding.currencyRecycler.adapter.let {
                             if (it is CurrencyItemAdapter) {
                                 it.setList(rates)
@@ -65,7 +72,6 @@ class MainActivity : AppCompatActivity() {
                         }
                     }
                 }
-
         }
     }
 
@@ -81,8 +87,8 @@ class MainActivity : AppCompatActivity() {
     private fun handleState(state: MainScreenGlobalState) {
         when (state) {
             is MainScreenGlobalState.LOADING -> handleLoading(state.isLoading)
+            is MainScreenGlobalState.SHOW_MWSSAGES -> showMessage(state.message)
         }
-
     }
 
     private fun handleLoading(isLoading: Boolean) {
@@ -91,5 +97,9 @@ class MainActivity : AppCompatActivity() {
         } else {
             binding.loadingProgressBar.gone()
         }
+    }
+
+    private fun showMessage(message: String) {
+        Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
     }
 }
