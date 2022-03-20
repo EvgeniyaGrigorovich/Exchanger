@@ -74,6 +74,7 @@ class MainViewModel @Inject constructor(
                     //сообщение об ошибке
                 }
                 .collect { result ->
+                    hideLoading()
                     rates.value = result
                 }
         }

@@ -16,7 +16,7 @@ import kotlinx.android.parcel.Parcelize
 @Parcelize
 data class RateDbModel(
     @PrimaryKey(autoGenerate = true)
-    val id: Int? = 1,
+    val id: Int?,
     val currency: String,
     val value: Double
 ) : Parcelable

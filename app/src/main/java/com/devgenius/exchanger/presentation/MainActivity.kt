@@ -34,6 +34,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         setupRecyclerView()
+        setBottomNavigation()
     }
 
     override fun onResume() {
@@ -41,6 +42,7 @@ class MainActivity : AppCompatActivity() {
 
         observeProducts()
         observeState()
+
     }
 
     private fun setupRecyclerView() {
@@ -101,5 +103,24 @@ class MainActivity : AppCompatActivity() {
 
     private fun showMessage(message: String) {
         Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
+    }
+
+    private fun setBottomNavigation() {
+        with(binding) {
+            bottomNavigationView.setOnItemReselectedListener { item ->
+                when (item.itemId) {
+                    R.id.buttonFavourites -> viewModel.executeAction(
+                        MainScreenAction.OpenFavouritesScreen(
+                            sortedState = viewModel.mainScreenState.value.internalState.isSorted
+                        )
+                    )
+                    R.id.buttonHome -> viewModel.executeAction(
+                        MainScreenAction.OpenMainScreen(
+                            sortedState = viewModel.mainScreenState.value.internalState.isSorted
+                        )
+                    )
+                }
+            }
+        }
     }
 }

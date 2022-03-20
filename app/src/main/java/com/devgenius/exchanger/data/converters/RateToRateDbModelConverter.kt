@@ -13,6 +13,7 @@ internal class RateToRateDbModelConverter : OneWayConverter<Rate, RateDbModel> {
 
     override fun convert(from: Rate) =
         RateDbModel(
+            id = null,
             currency = from.currency,
             value = from.value
         )
