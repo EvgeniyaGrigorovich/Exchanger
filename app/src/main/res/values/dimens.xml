@@ -9,6 +9,6 @@
 
     <!-- margin size -->
     <dimen name="rate_item_margin">4dp</dimen>
-    <dimen name="recycle_margin">4dp</dimen>
+    <dimen name="margin_small">4dp</dimen>
 
 </resources>
