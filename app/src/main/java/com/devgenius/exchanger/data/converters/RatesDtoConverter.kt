@@ -13,16 +13,13 @@ import kotlinx.coroutines.launch
  **/
 internal class RatesDtoConverter : OneWayConverter<Map<String, Double>, List<Rate>> {
 
-    override fun convert(from: Map<String, Double>): List<Rate> {
-        val scope = CoroutineScope(Dispatchers.Default)
+    override suspend fun convert(from: Map<String, Double>): List<Rate> {
         val resultRates = arrayListOf<Rate>()
-        scope.launch {
 
             for (rate in from) {
                 val newRate = Rate(rate.key, rate.value)
                 resultRates.add(newRate)
             }
-        }
 
         return resultRates
     }

@@ -1,4 +1,4 @@
-package com.devgenius.exchanger.presentation.extension
+package com.devgenius.exchanger.utils.extension
 
 import android.view.View
 

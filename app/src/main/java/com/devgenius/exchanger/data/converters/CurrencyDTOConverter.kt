@@ -14,7 +14,7 @@ internal class CurrencyDTOConverter(
     private val ratesDtoConverter: OneWayConverter<Map<String, Double>, List<Rate>>
 ) : OneWayConverter<CurrencyDTO, Currency> {
 
-    override fun convert(from: CurrencyDTO): Currency {
+    override suspend fun convert(from: CurrencyDTO): Currency {
         return Currency(
             success = from.success,
             base = from.base,

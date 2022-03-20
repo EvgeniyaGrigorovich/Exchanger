@@ -13,10 +13,10 @@ import kotlinx.coroutines.flow.Flow
  */
 class RatesLocalStorage(
     private val ratesDao: RatesDao
-): IRatesLocalStorage {
+) : IRatesLocalStorage {
 
     override suspend fun saveFavouriteRate(rate: RateDbModel) {
-       ratesDao.saveRate(rate = rate)
+        ratesDao.saveRate(rate = rate)
     }
 
     override suspend fun getFavouritesRates(): Flow<List<RateDbModel>> {

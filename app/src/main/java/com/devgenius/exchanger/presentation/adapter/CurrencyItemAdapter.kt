@@ -34,6 +34,7 @@ internal class CurrencyItemAdapter(
         val diffUtil = RateItemDiffUtilCallback(rateList, list)
         val differResult = DiffUtil.calculateDiff(diffUtil)
         this.rateList = list
+//        notifyDataSetChanged()
         differResult.dispatchUpdatesTo(this)
     }
 }

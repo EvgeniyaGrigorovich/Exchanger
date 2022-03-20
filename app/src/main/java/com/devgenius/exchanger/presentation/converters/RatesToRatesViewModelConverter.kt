@@ -11,7 +11,7 @@ import com.devgenius.exchanger.utils.OneWayConverter
  */
 internal class RatesToRatesViewModelConverter : OneWayConverter<List<Rate>, List<RateViewModel>> {
 
-    override fun convert(from: List<Rate>): List<RateViewModel> {
+    override suspend fun convert(from: List<Rate>): List<RateViewModel> {
         val resultRatesViewModelList = arrayListOf<RateViewModel>()
         for (rates in from) {
             val newRates = RateViewModel(

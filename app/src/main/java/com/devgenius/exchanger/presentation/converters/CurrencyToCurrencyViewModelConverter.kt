@@ -17,7 +17,7 @@ internal class CurrencyToCurrencyViewModelConverter(
     private val ratesConverter: OneWayConverter<List<Rate>, List<RateViewModel>>
 ) : OneWayConverter<Currency, CurrencyViewModel> {
 
-    override fun convert(from: Currency): CurrencyViewModel {
+    override suspend fun convert(from: Currency): CurrencyViewModel {
         return CurrencyViewModel(success = from.success,
         base = from.base,
         rates = ratesConverter.convert(from.rates))

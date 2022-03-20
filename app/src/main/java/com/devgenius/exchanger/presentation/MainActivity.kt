@@ -2,7 +2,6 @@ package com.devgenius.exchanger.presentation
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.lifecycle.lifecycleScope
@@ -12,10 +11,9 @@ import com.devgenius.exchanger.R
 import com.devgenius.exchanger.databinding.ActivityMainBinding
 import com.devgenius.exchanger.domain.action.MainScreenAction
 import com.devgenius.exchanger.presentation.adapter.CurrencyItemAdapter
-import com.devgenius.exchanger.presentation.extension.gone
-import com.devgenius.exchanger.presentation.extension.visible
+import com.devgenius.exchanger.utils.extension.gone
+import com.devgenius.exchanger.utils.extension.visible
 import com.devgenius.exchanger.presentation.states.MainScreenGlobalState
-import com.devgenius.exchanger.presentation.states.MainScreenViewState
 import com.devgenius.exchanger.presentation.states.SortedState
 import com.devgenius.exchangerdi.app.App
 import kotlinx.coroutines.launch

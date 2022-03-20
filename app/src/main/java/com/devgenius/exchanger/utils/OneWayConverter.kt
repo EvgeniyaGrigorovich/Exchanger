@@ -16,5 +16,5 @@ interface OneWayConverter<F, T> {
      * @param from из
      * @return в
      */
-    fun convert(from: F): T
+    suspend fun convert(from: F): T
 }
