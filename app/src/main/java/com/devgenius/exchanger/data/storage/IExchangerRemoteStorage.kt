@@ -14,4 +14,11 @@ interface IExchangerRemoteStorage {
      * Получить список валют по сети
      */
     suspend fun getCurrencyFromRemote() : Response<CurrencyDTO>
+
+    /**
+     * Получить список избранных валют по сети
+     *
+     * @param symbols список избранных валют
+     */
+    suspend fun getFavouriteCurrencyFromRemote(symbols: String): Response<CurrencyDTO>
 }

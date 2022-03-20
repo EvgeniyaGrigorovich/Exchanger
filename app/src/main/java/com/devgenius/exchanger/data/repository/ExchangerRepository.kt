@@ -1,16 +1,16 @@
 package com.devgenius.exchanger.data.repository
 
-import com.devgenius.exchanger.data.storage.IExchangerRemoteStorage
-import com.devgenius.exchanger.domain.common.base.BaseResult
+import android.util.Log
 import com.devgenius.exchanger.data.entity.CurrencyDTO
 import com.devgenius.exchanger.data.local.db.dbmodel.RateDbModel
 import com.devgenius.exchanger.data.local.storage.IRatesLocalStorage
+import com.devgenius.exchanger.data.storage.IExchangerRemoteStorage
+import com.devgenius.exchanger.domain.common.base.BaseResult
 import com.devgenius.exchanger.domain.entity.Currency
 import com.devgenius.exchanger.domain.entity.Rate
 import com.devgenius.exchanger.domain.repository.IExchangerRepository
 import com.devgenius.exchanger.utils.OneWayConverter
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.*
 
 /**
  * Реализация репозиторя [IExchangerRepository]
@@ -28,7 +28,8 @@ internal class ExchangerRepository(
     private val localStorage: IRatesLocalStorage,
     private val currencyConverter: OneWayConverter<CurrencyDTO, Currency>,
     private val rateToRateDbModelConverter: OneWayConverter<Rate, RateDbModel>,
-    private val rateDbModelToRateConverter: OneWayConverter<Flow<List<RateDbModel>>, Flow<List<Rate>>>
+    private val rateDbModelToRateConverter: OneWayConverter<Flow<List<RateDbModel>>, Flow<List<Rate>>>,
+    private val ratesListToSymbolsConverter: OneWayConverter<List<Rate>, String>
 ) : IExchangerRepository {
 
     override suspend fun getCurrencyFromRemote(): Flow<BaseResult<Currency>> {
@@ -52,5 +53,20 @@ internal class ExchangerRepository(
         localStorage.saveFavouriteRate(
             rateToRateDbModelConverter.convert(rate)
         )
+    }
+
+    override suspend fun getFavouriteCurrencyFromRemote(list: List<Rate>): Flow<BaseResult<Currency>> {
+        return flow {
+            val response = remoteStorage.getFavouriteCurrencyFromRemote(
+                ratesListToSymbolsConverter.convert(list)
+            )
+            if (response.isSuccessful) {
+                val body = response.body()
+                val currency = body?.let { currencyConverter.convert(it) }
+                emit(BaseResult.Success(currency ?: Currency(false, "", listOf())))
+            } else {
+                emit(BaseResult.Error)
+            }
+        }
     }
 }

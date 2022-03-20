@@ -1,7 +1,9 @@
 package com.devgenius.exchanger.presentation
 
-import androidx.lifecycle.ViewModel
+import android.app.Application
+import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
+import com.devgenius.exchanger.R
 import com.devgenius.exchanger.domain.action.MainScreenAction
 import com.devgenius.exchanger.domain.common.base.BaseResult
 import com.devgenius.exchanger.domain.entity.Rate
@@ -20,7 +22,7 @@ class MainViewModel @Inject constructor(
     private val getAllCurrenciesUseCase: GetAllCurrenciesUseCase,
     private val getFavouriteCurrenciesUseCase: GetFavouriteCurrenciesUseCase,
     private val saveCurrencyToFavouritesUseCase: SaveCurrencyToFavouritesUseCase,
-) : ViewModel() {
+) : AndroidViewModel(Application()) {
 
     private val states =
         MutableStateFlow<MainScreenViewState>(
@@ -66,17 +68,31 @@ class MainViewModel @Inject constructor(
 
     private fun getFavouriteCurrencies() {
         viewModelScope.launch {
-            getFavouriteCurrenciesUseCase.invoke().onStart {
-                setLoading()
-            }
-                .catch { exception ->
-                    hideLoading()
-                    //сообщение об ошибке
+            getFavouriteCurrenciesUseCase.getFromLocal()
+                .collect { resultRate ->
+                    getFavouriteCurrenciesUseCase.getFromRemote(
+                        resultRate
+                    ).onStart {
+                        setLoading()
+                    } .catch { exception ->
+                        hideLoading()
+                        showMessage(exception.message.toString())
+                    }.collect { resultCurrency ->
+                        hideLoading()
+                        when (resultCurrency) {
+                            is BaseResult.Success -> {
+                                rates.value = resultCurrency.data.rates
+                            }
+                            is BaseResult.Error -> {
+                                rates.value = resultRate
+                                showMessage(
+                                    resource = R.string.cannot_download_favourites
+                                )
+                            }
+                        }
+                    }
                 }
-                .collect { result ->
-                    hideLoading()
-                    rates.value = result
-                }
+
         }
     }
 
@@ -87,7 +103,7 @@ class MainViewModel @Inject constructor(
             }
                 .catch { exception ->
                     hideLoading()
-                    showMessage(exception.message.toString())
+                    showMessage(exception.message)
                 }
                 .collect { result ->
                     hideLoading()
@@ -96,7 +112,7 @@ class MainViewModel @Inject constructor(
                             rates.value = result.data.rates
                         }
                         is BaseResult.Error -> {
-//                            showMessage()
+                            showMessage(resource = R.string.cannot_download_currency)
                         }
                     }
                 }
@@ -143,9 +159,17 @@ class MainViewModel @Inject constructor(
 //        }
     }
 
-    private fun showMessage(message: String) {
-        states.value = states.value.copy(
-            globalState = MainScreenGlobalState.SHOW_MWSSAGES(message)
-        )
+    private fun showMessage(message: String? = null, resource: Int? = null) {
+        if (!message.isNullOrEmpty()) {
+            states.value = states.value.copy(
+                globalState = MainScreenGlobalState.SHOW_MWSSAGES(message)
+            )
+        } else if (resource != null) {
+            states.value = states.value.copy(
+                globalState = MainScreenGlobalState.SHOW_MWSSAGES(
+                    getApplication<Application>().resources.getString(resource)
+                )
+            )
+        }
     }
 }

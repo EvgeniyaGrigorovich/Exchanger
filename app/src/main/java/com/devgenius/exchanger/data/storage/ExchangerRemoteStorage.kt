@@ -15,4 +15,8 @@ internal class ExchangerRemoteStorage(
     override suspend fun getCurrencyFromRemote(): Response<CurrencyDTO> {
         return exchangerApi.getCurrency(BuildConfig.API_KEY)
     }
+
+    override suspend fun getFavouriteCurrencyFromRemote(symbols: String): Response<CurrencyDTO> {
+        return exchangerApi.getFavouriteCurrency(BuildConfig.API_KEY, currency = symbols)
+    }
 }

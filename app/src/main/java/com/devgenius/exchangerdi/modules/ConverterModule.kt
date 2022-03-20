@@ -9,6 +9,7 @@ import com.devgenius.exchanger.data.local.db.dbmodel.RateDbModel
 import com.devgenius.exchanger.domain.entity.Currency
 import com.devgenius.exchanger.domain.entity.Rate
 import com.devgenius.exchanger.presentation.converters.CurrencyToCurrencyViewModelConverter
+import com.devgenius.exchanger.presentation.converters.RatesListToSymbolsConverter
 import com.devgenius.exchanger.presentation.converters.RatesToRatesViewModelConverter
 import com.devgenius.exchanger.presentation.models.CurrencyViewModel
 import com.devgenius.exchanger.utils.OneWayConverter
@@ -51,5 +52,13 @@ class ConverterModule {
     @Provides
     fun provideRateDbModelToRateConverter(): OneWayConverter<Flow<List<RateDbModel>>, Flow<List<Rate>>> {
         return RateDbModelToRateConverter()
+    }
+
+    /**
+     * Предоставляет [RatesListToSymbolsConverter] в граф зависимостей
+     */
+    @Provides
+    fun provideRateListToSymbolConverter(): OneWayConverter<List<Rate>, String> {
+        return RatesListToSymbolsConverter()
     }
 }

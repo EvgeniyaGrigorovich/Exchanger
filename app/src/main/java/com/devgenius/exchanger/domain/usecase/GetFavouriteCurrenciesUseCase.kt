@@ -1,5 +1,7 @@
 package com.devgenius.exchanger.domain.usecase
 
+import com.devgenius.exchanger.domain.common.base.BaseResult
+import com.devgenius.exchanger.domain.entity.Currency
 import com.devgenius.exchanger.domain.repository.IExchangerRepository
 import com.devgenius.exchanger.domain.entity.Rate
 import kotlinx.coroutines.flow.Flow
@@ -14,7 +16,11 @@ class GetFavouriteCurrenciesUseCase  @Inject constructor(
     private val repository: IExchangerRepository
 ) {
 
-    suspend fun invoke(): Flow<List<Rate>> {
+    suspend fun getFromLocal(): Flow<List<Rate>>{
         return repository.getCurrencyFromLocal()
+    }
+
+    suspend fun getFromRemote(ratesList: List<Rate>): Flow<BaseResult<Currency>>{
+        return repository.getFavouriteCurrencyFromRemote(ratesList)
     }
 }

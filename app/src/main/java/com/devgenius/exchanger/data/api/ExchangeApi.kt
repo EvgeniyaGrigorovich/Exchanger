@@ -15,8 +15,17 @@ import retrofit2.http.Query
 interface ExchangeApi {
 
     /**
-     * Создает get зарпос
+     * Создает get зарпос для получения списка всех валют
      */
     @GET("latest")
     suspend fun getCurrency(@Query(BuildConfig.API_KEY_LABEL) string: String): Response<CurrencyDTO>
+
+    /**
+     * Создает get зарпос для получения списка всех валют
+     */
+    @GET("latest")
+    suspend fun getFavouriteCurrency(
+        @Query(BuildConfig.API_KEY_LABEL) string: String,
+        @Query("symbols" ) currency: String
+    ): Response<CurrencyDTO>
 }

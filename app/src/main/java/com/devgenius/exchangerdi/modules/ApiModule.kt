@@ -1,5 +1,6 @@
 package com.devgenius.exchangerdi.modules
 
+import android.content.Context
 import com.devgenius.exchanger.data.api.ExchangeApi
 import com.devgenius.exchanger.data.entity.CurrencyDTO
 import com.devgenius.exchanger.data.local.db.RatesDao
@@ -49,14 +50,16 @@ class ApiModule {
         localStorage: IRatesLocalStorage,
         currencyConverter: OneWayConverter<CurrencyDTO, Currency>,
         rateToRateDbModelConverter: OneWayConverter<Rate, RateDbModel>,
-        rateDbModelToRateConverter: OneWayConverter<Flow<List<RateDbModel>>, Flow<List<Rate>>>
+        rateDbModelToRateConverter: OneWayConverter<Flow<List<RateDbModel>>, Flow<List<Rate>>>,
+        ratesListToSymbolsConverter: OneWayConverter<List<Rate>, String>
     ): IExchangerRepository =
         ExchangerRepository(
             remoteStorage,
             localStorage,
             currencyConverter,
             rateToRateDbModelConverter,
-            rateDbModelToRateConverter
+            rateDbModelToRateConverter,
+            ratesListToSymbolsConverter
         )
 
     /**
