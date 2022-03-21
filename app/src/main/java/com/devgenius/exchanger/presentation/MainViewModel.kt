@@ -124,7 +124,7 @@ class MainViewModel @Inject constructor(
         }
 
         states.value = states.value.copy(
-            globalState = MainScreenGlobalState.SHOW_MWSSAGES("Добавлено")
+            globalState = MainScreenGlobalState.SHOW_MESSAGE("Добавлено")
         )
     }
 
@@ -145,7 +145,6 @@ class MainViewModel @Inject constructor(
                         }.reversed()
                     )
                 }
-
                 is SortedState.ByValue -> if (newSortedState.isAscending) {
                     newList.addAll(
                         rates.value.sortedByDescending {
@@ -167,11 +166,11 @@ class MainViewModel @Inject constructor(
     private fun showMessage(message: String? = null, resource: Int? = null) {
         if (!message.isNullOrEmpty()) {
             states.value = states.value.copy(
-                globalState = MainScreenGlobalState.SHOW_MWSSAGES(message)
+                globalState = MainScreenGlobalState.SHOW_MESSAGE(message)
             )
         } else if (resource != null) {
             states.value = states.value.copy(
-                globalState = MainScreenGlobalState.SHOW_MWSSAGES(
+                globalState = MainScreenGlobalState.SHOW_MESSAGE(
                     getApplication<Application>().resources.getString(resource)
                 )
             )

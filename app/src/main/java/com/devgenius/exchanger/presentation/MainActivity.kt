@@ -1,5 +1,6 @@
 package com.devgenius.exchanger.presentation
 
+import android.annotation.SuppressLint
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -44,7 +45,6 @@ class MainActivity : AppCompatActivity() {
 
         observeProducts()
         observeState()
-
     }
 
     private fun setupRecyclerView() {
@@ -88,16 +88,29 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    private fun handleState(state: MainScreenGlobalState) {
+        when (state) {
+            is MainScreenGlobalState.LOADING -> handleLoading(state.isLoading)
+            is MainScreenGlobalState.SHOW_MESSAGE -> showMessage(state.message)
+        }
+    }
 
+    private fun handleLoading(isLoading: Boolean) {
+        if (isLoading) {
+            binding.loadingProgressBar.visible()
+        } else {
+            binding.loadingProgressBar.gone()
+        }
+    }
+
+    @SuppressLint("NewApi")
     private fun setMenu() {
         binding.textViewSort.setOnClickListener {
             val popup = PopupMenu(this, it)
             val inflater: MenuInflater = popup.menuInflater
             inflater.inflate(R.menu.actions, popup.menu)
             popup.show()
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-                popup.setForceShowIcon(true)
-            }
+            popup.setForceShowIcon(true)
             popup.setOnMenuItemClickListener { item ->
                 when (item.itemId) {
                     R.id.menu_alphabet_desc ->
@@ -131,21 +144,6 @@ class MainActivity : AppCompatActivity() {
                 }
                 true
             }
-        }
-    }
-
-    private fun handleState(state: MainScreenGlobalState) {
-        when (state) {
-            is MainScreenGlobalState.LOADING -> handleLoading(state.isLoading)
-            is MainScreenGlobalState.SHOW_MWSSAGES -> showMessage(state.message)
-        }
-    }
-
-    private fun handleLoading(isLoading: Boolean) {
-        if (isLoading) {
-            binding.loadingProgressBar.visible()
-        } else {
-            binding.loadingProgressBar.gone()
         }
     }
 
