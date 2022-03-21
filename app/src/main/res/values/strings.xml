@@ -8,14 +8,19 @@
     <string name="bottom_nam_menu_favourites_title">Favourites</string>
 
     <!-- sort menu -->
+    <string name="sort_by">Sort by:</string>
+    <string name="default_sort">Default</string>
     <string name="button_sort_alphabet">Alphabetical</string>
+    <string name="button_sort_alphabet_asc">Alphabetical Asc</string>
+    <string name="button_sort_alphabet_desc">Alphabetical Desc</string>
     <string name="button_sort_value">Values</string>
+    <string name="button_sort_value_asc">Values asc</string>
+    <string name="button_sort_value_desc">Values desc</string>
 
     <!-- error -->
     <string name="cannot_download_favourites">Не удалось загрузить актуальные данные по избранным валютам</string>
     <string name="cannot_download_currency">Не удалось загрузить данные по валютам</string>
-
-
+ >
 
 
 </resources>

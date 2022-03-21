@@ -6,9 +6,19 @@
 
     <!-- text size -->
     <dimen name="currency_label_text_size">18sp</dimen>
+    <dimen name="currency_value_text_size">16sp</dimen>
 
     <!-- margin size -->
     <dimen name="rate_item_margin">4dp</dimen>
     <dimen name="margin_small">4dp</dimen>
+
+    <!-- corner -->
+    <dimen name="card_view_corner">8dp</dimen>
+
+    <!-- elevation -->
+    <dimen name="card_view_elevation">4dp</dimen>
+
+    <!-- stroke -->
+    <dimen name="card_view_stroke">1dp</dimen>
 
 </resources>

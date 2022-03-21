@@ -4,10 +4,15 @@ import android.annotation.SuppressLint
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.view.MenuInflater
+import android.view.View
+import android.widget.AdapterView
+import android.widget.ArrayAdapter
 import android.widget.PopupMenu
 import android.widget.Toast
 import androidx.activity.viewModels
+import androidx.annotation.RequiresApi
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import by.kirich1409.viewbindingdelegate.viewBinding
@@ -22,7 +27,7 @@ import com.devgenius.exchanger.presentation.states.SortedState
 import com.devgenius.exchangerdi.app.App
 import kotlinx.coroutines.launch
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(),  AdapterView.OnItemSelectedListener {
 
     private val viewModel: MainViewModel by viewModels {
         (application as App).appComponent.provideViewModelFactory()
@@ -38,6 +43,7 @@ class MainActivity : AppCompatActivity() {
         setupRecyclerView()
         setBottomNavigation()
         setMenu()
+        setSpinner()
     }
 
     override fun onResume() {
@@ -113,34 +119,41 @@ class MainActivity : AppCompatActivity() {
             popup.setForceShowIcon(true)
             popup.setOnMenuItemClickListener { item ->
                 when (item.itemId) {
-                    R.id.menu_alphabet_desc ->
-
+                    R.id.menu_alphabet_desc -> {
+                        binding.textViewSort.text = getString(R.string.button_sort_alphabet_desc)
                         viewModel.executeAction(
                             MainScreenAction.ChangeSortedState(
                                 SortedState.ByAlphabet(isAscending = false)
                             )
                         )
+                    }
 
-                    R.id.menu_alphabet_asc ->
+                    R.id.menu_alphabet_asc -> {
+                        binding.textViewSort.text = getString(R.string.button_sort_alphabet_asc)
                         viewModel.executeAction(
                             MainScreenAction.ChangeSortedState(
                                 SortedState.ByAlphabet(isAscending = true)
                             )
                         )
+                    }
 
-                    R.id.menu_value_desc ->
+                    R.id.menu_value_desc -> {
+                        binding.textViewSort.text = getString(R.string.button_sort_value_desc)
                         viewModel.executeAction(
                             MainScreenAction.ChangeSortedState(
                                 SortedState.ByValue(isAscending = false)
                             )
                         )
+                    }
 
-                    R.id.menu_value_asc ->
+                    R.id.menu_value_asc -> {
+                        binding.textViewSort.text = getString(R.string.button_sort_value_asc)
                         viewModel.executeAction(
                             MainScreenAction.ChangeSortedState(
                                 SortedState.ByValue(isAscending = true)
                             )
                         )
+                    }
                 }
                 true
             }
@@ -169,4 +182,23 @@ class MainActivity : AppCompatActivity() {
             }
         }
     }
+
+    private fun setSpinner(){
+        ArrayAdapter.createFromResource(
+            this,
+            R.array.values_array,
+            android.R.layout.simple_spinner_item
+        ).also { adapter ->
+            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+            binding.currencySpinner.adapter = adapter
+        }
+        binding.currencySpinner.onItemSelectedListener = this
+    }
+
+    override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+        parent?.selectedItem
+
+    }
+
+    override fun onNothingSelected(parent: AdapterView<*>?) {}
 }
