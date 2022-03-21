@@ -58,7 +58,6 @@ class MainViewModel @Inject constructor(
             is MainScreenAction.OpenFavouritesScreen -> getFavouriteCurrencies()
             is MainScreenAction.OpenMainScreen -> getAllCurrencies()
             is MainScreenAction.ChangeSortedState -> changeSort(
-                action.oldSortedState,
                 action.newSortedState
             )
             is MainScreenAction.SaveToFavourites -> saveToFavourite(action.rate)
@@ -74,7 +73,7 @@ class MainViewModel @Inject constructor(
                         resultRate
                     ).onStart {
                         setLoading()
-                    } .catch { exception ->
+                    }.catch { exception ->
                         hideLoading()
                         showMessage(exception.message.toString())
                     }.collect { resultCurrency ->
@@ -129,34 +128,40 @@ class MainViewModel @Inject constructor(
         )
     }
 
-    private fun changeSort(oldSortedState: SortedState, newSortedState: SortedState) {
-        if (oldSortedState == newSortedState) {
-            return
-        }
+    private fun changeSort(newSortedState: SortedState) {
+        viewModelScope.launch {
+            val newList = mutableListOf<Rate>()
+            when (newSortedState) {
+                is SortedState.ByAlphabet -> if (newSortedState.isAscending) {
+                    newList.addAll(rates.value.sortedByDescending {
+                        it.currency
+                    }
+                    )
 
-//        viewModelScope.launch {
-//            when (newSortedState) {
-//                is SortedState.ByAlphabet -> if (newSortedState.isAscending) {
-//                    rates.value.sortedByDescending {
-//                        it.currency
-//                    }
-//                } else {
-//                    rates.value.sortedByDescending {
-//                        it.currency
-//                    }.reversed()
-//                }
-//
-//                is SortedState.ByValue -> if (newSortedState.isAscending) {
-//                    rates.value.sortedByDescending {
-//                        it.currency
-//                    }
-//                } else {
-//                    rates.value.sortedByDescending {
-//                        it.currency
-//                    }.reversed()
-//                }
-//            }
-//        }
+                } else {
+                    newList.addAll(
+                        rates.value.sortedByDescending {
+                            it.currency
+                        }.reversed()
+                    )
+                }
+
+                is SortedState.ByValue -> if (newSortedState.isAscending) {
+                    newList.addAll(
+                        rates.value.sortedByDescending {
+                            it.value
+                        }.reversed()
+                    )
+                } else {
+                    newList.addAll(
+                        rates.value.sortedByDescending {
+                            it.value
+                        }
+                    )
+                }
+            }
+            rates.emit(newList)
+        }
     }
 
     private fun showMessage(message: String? = null, resource: Int? = null) {

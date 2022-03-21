@@ -32,11 +32,9 @@ sealed class MainScreenAction {
     /**
      * Намерение изменить сортировка
      *
-     * @param oldSortedState начальное состояние сортировки
      * @param newSortedState желаемое состояние сортировки
      */
     data class ChangeSortedState(
-        val oldSortedState: SortedState,
         val newSortedState: SortedState
     ) : MainScreenAction()
 

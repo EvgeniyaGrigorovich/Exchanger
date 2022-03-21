@@ -11,5 +11,5 @@ package com.devgenius.exchanger.presentation.models
  */
 data class RateViewModel(
     val currency: String,
-    val value: Double
+    val value: String
 )

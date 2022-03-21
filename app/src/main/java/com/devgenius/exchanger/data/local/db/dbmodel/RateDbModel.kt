@@ -18,5 +18,5 @@ data class RateDbModel(
     @PrimaryKey(autoGenerate = true)
     val id: Int?,
     val currency: String,
-    val value: Double
+    val value: String
 ) : Parcelable

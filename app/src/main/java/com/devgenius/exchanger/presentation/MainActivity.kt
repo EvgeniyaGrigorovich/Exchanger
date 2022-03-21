@@ -1,7 +1,10 @@
 package com.devgenius.exchanger.presentation
 
+import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.MenuInflater
+import android.widget.PopupMenu
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.lifecycle.lifecycleScope
@@ -33,6 +36,7 @@ class MainActivity : AppCompatActivity() {
 
         setupRecyclerView()
         setBottomNavigation()
+        setMenu()
     }
 
     override fun onResume() {
@@ -81,6 +85,52 @@ class MainActivity : AppCompatActivity() {
                 .collect { state ->
                     handleState(state.globalState)
                 }
+        }
+    }
+
+
+    private fun setMenu() {
+        binding.textViewSort.setOnClickListener {
+            val popup = PopupMenu(this, it)
+            val inflater: MenuInflater = popup.menuInflater
+            inflater.inflate(R.menu.actions, popup.menu)
+            popup.show()
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+                popup.setForceShowIcon(true)
+            }
+            popup.setOnMenuItemClickListener { item ->
+                when (item.itemId) {
+                    R.id.menu_alphabet_desc ->
+
+                        viewModel.executeAction(
+                            MainScreenAction.ChangeSortedState(
+                                SortedState.ByAlphabet(isAscending = false)
+                            )
+                        )
+
+                    R.id.menu_alphabet_asc ->
+                        viewModel.executeAction(
+                            MainScreenAction.ChangeSortedState(
+                                SortedState.ByAlphabet(isAscending = true)
+                            )
+                        )
+
+                    R.id.menu_value_desc ->
+                        viewModel.executeAction(
+                            MainScreenAction.ChangeSortedState(
+                                SortedState.ByValue(isAscending = false)
+                            )
+                        )
+
+                    R.id.menu_value_asc ->
+                        viewModel.executeAction(
+                            MainScreenAction.ChangeSortedState(
+                                SortedState.ByValue(isAscending = true)
+                            )
+                        )
+                }
+                true
+            }
         }
     }
 

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/menu_alphabet_desc"
+        android:icon="@drawable/ic_baseline_arrow_downward_24"
+        android:title="@string/button_sort_alphabet"/>
+    <item
+        android:id="@+id/menu_alphabet_asc"
+        android:icon="@drawable/ic_baseline_arrow_upward_24"
+        android:title="@string/button_sort_alphabet" />
+    <item
+        android:id="@+id/menu_value_desc"
+        android:icon="@drawable/ic_baseline_arrow_downward_24"
+        android:title="@string/button_sort_value" />
+
+    <item
+        android:id="@+id/menu_value_asc"
+        android:icon="@drawable/ic_baseline_arrow_upward_24"
+        android:title="@string/button_sort_value" />
+
+</menu>

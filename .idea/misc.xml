@@ -4,13 +4,16 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="app/src/main/res/drawable/button_nav_selector.xml" value="0.2015625" />
+        <entry key="app/src/main/res/drawable/ic_baseline_arrow_downward_24.xml" value="0.20208333333333334" />
+        <entry key="app/src/main/res/drawable/ic_baseline_arrow_upward_24.xml" value="0.20208333333333334" />
         <entry key="app/src/main/res/drawable/ic_baseline_home_24.xml" value="0.20104166666666667" />
         <entry key="app/src/main/res/drawable/ic_baseline_star_24.xml" value="0.42864583333333334" />
         <entry key="app/src/main/res/drawable/ic_baseline_star_border_24.xml" value="0.42864583333333334" />
-        <entry key="app/src/main/res/layout/activity_main.xml" value="0.196875" />
+        <entry key="app/src/main/res/layout/activity_main.xml" value="0.45" />
         <entry key="app/src/main/res/layout/button_menu.xml" value="0.1" />
         <entry key="app/src/main/res/layout/currency_item.xml" value="0.45925925925925926" />
         <entry key="app/src/main/res/layout/rate_item.xml" value="0.2157258064516129" />
+        <entry key="app/src/main/res/menu/actions.xml" value="0.24895833333333334" />
         <entry key="app/src/main/res/menu/button_nav_menu.xml" value="0.18489583333333334" />
       </map>
     </option>

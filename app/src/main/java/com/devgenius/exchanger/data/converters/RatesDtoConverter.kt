@@ -5,6 +5,8 @@ import com.devgenius.exchanger.utils.OneWayConverter
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import java.math.RoundingMode
+import java.text.DecimalFormat
 
 /**
  * Конвертер из [RatesDTO] в [List<Rate>]
@@ -15,11 +17,12 @@ internal class RatesDtoConverter : OneWayConverter<Map<String, Double>, List<Rat
 
     override suspend fun convert(from: Map<String, Double>): List<Rate> {
         val resultRates = arrayListOf<Rate>()
-
-            for (rate in from) {
-                val newRate = Rate(rate.key, rate.value)
-                resultRates.add(newRate)
-            }
+        val format = DecimalFormat("#.####")
+        format.roundingMode = RoundingMode.CEILING
+        for (rate in from) {
+            val newRate = Rate(rate.key, format.format(rate.value.toBigDecimal()))
+            resultRates.add(newRate)
+        }
 
         return resultRates
     }
