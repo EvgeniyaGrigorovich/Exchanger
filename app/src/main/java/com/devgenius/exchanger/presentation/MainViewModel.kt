@@ -116,9 +116,7 @@ class MainViewModel @Inject constructor(
                             }
                             is BaseResult.Error -> {
                                 setSelectedSort(states.value.internalState.isSorted, resultRate)
-//                                showMessage(
-////                                    resource = R.string.cannot_download_favourites
-//                                )
+                                 showMessage("Cannot load new data")
                             }
                         }
                     }
@@ -151,10 +149,9 @@ class MainViewModel @Inject constructor(
                         is BaseResult.Success -> {
                             setSelectedSort(states.value.internalState.isSorted, result.data.rates)
                         }
-
-//                        is BaseResult.Error -> {
-//                            showMessage(resource = R.string.cannot_download_currency)
-//                        }
+                        is BaseResult.Error -> {
+                            showMessage("Cannot loading data")
+                        }
                     }
                 }
         }
