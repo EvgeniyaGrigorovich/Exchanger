@@ -11,7 +11,7 @@ import kotlinx.coroutines.flow.Flow
  *
  * @author Evgeniia Grigorovich
  */
-class RatesLocalStorage(
+internal class RatesLocalStorage(
     private val ratesDao: RatesDao
 ) : IRatesLocalStorage {
 

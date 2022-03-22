@@ -4,7 +4,6 @@ import android.os.Parcelable
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import kotlinx.android.parcel.Parcelize
-import java.math.BigDecimal
 
 /**
  * Модель обектов для базы данных
@@ -12,6 +11,7 @@ import java.math.BigDecimal
  * @param id id
  * @param currency Наименование валюты
  * @param value Цена валюты
+ * @param convertedCurrency Валюта по отношению к которой конвертируем
  */
 @Entity(tableName = "rates_table")
 @Parcelize

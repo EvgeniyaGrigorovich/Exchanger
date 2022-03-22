@@ -30,6 +30,9 @@ internal class CurrencyItemAdapter(
         }
     }
 
+    /**
+     * Метод для установки значений в адаптер
+     */
     fun setList(list: List<Rate>){
         val diffUtil = RateItemDiffUtilCallback(rateList, list)
         val differResult = DiffUtil.calculateDiff(diffUtil)

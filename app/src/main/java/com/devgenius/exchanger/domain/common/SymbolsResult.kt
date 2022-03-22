@@ -1,7 +1,5 @@
 package com.devgenius.exchanger.domain.common
 
-import com.devgenius.exchanger.domain.entity.Symbols
-
 /**
  * Класс с вариантами состояния загрузки
  *

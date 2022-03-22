@@ -1,7 +1,7 @@
 package com.devgenius.exchanger.domain.repository
 
 
-import com.devgenius.exchanger.domain.common.base.BaseResult
+import com.devgenius.exchanger.domain.common.BaseResult
 import com.devgenius.exchanger.domain.entity.Currency
 import com.devgenius.exchanger.domain.entity.Rate
 import kotlinx.coroutines.flow.Flow
@@ -15,16 +15,23 @@ interface IExchangerRepository {
 
     /**
      * Получить список валют по сети
+     *
+     * @param base Валюта по отношению к которй запрашиваем курс
      */
     suspend fun getCurrencyFromRemote(base: String): Flow<BaseResult<Currency>>
 
     /**
      * Сохранить валюту в избранное
+     *
+     * @param rate Валюта, которую сохраняяем в избранное
      */
     suspend fun addCurrencyToFavourite(rate: Rate)
 
     /**
      *  Получить список избранных валют по сети
+     *
+     * @param base Валюта по отношению к которй запрашиваем курс
+     * @param symbols Список избранных валют
      */
     suspend fun getFavouriteCurrencyFromRemote(
         base: String,

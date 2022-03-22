@@ -6,7 +6,14 @@ import androidx.recyclerview.widget.RecyclerView
 import com.devgenius.exchanger.databinding.RateItemBinding
 import com.devgenius.exchanger.domain.entity.Rate
 
-
+/**
+ * Вью холдер для адаптера
+ *
+ * @constructor
+ * @param binding Байндинг
+ *
+ * @author Evgeniia Grigorovich
+ */
 internal class RateViewHolder(
     private val binding: RateItemBinding
 ) : RecyclerView.ViewHolder(binding.root) {

@@ -3,6 +3,15 @@ package com.devgenius.exchanger.presentation.adapter
 import androidx.recyclerview.widget.DiffUtil
 import com.devgenius.exchanger.domain.entity.Rate
 
+/**
+ * DiffUtilCallback
+ *
+ * @constructor
+ * @param oldList список со старыми значениями
+ * @param newList список с новыми значениями
+ *
+ * @author Evgeniia Grigorovcj
+ */
 internal class RateItemDiffUtilCallback(
     private val oldList: List<Rate>,
     private val newList: List<Rate>

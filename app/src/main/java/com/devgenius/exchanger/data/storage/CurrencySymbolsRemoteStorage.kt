@@ -6,7 +6,7 @@ import com.devgenius.exchanger.data.entity.SymbolsDTO
 import retrofit2.Response
 
 /**
- * Реализация интерфейсак [ICurrencySymbolsRemoteStorage]
+ * Реализация интерфейса [ICurrencySymbolsRemoteStorage]
  *
  * @author Evgeniia Grigorovich
  */

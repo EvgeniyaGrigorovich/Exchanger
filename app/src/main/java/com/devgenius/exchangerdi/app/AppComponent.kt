@@ -4,6 +4,9 @@ import com.devgenius.exchangerdi.modules.*
 import dagger.Component
 import javax.inject.Singleton
 
+/**
+ * Application component
+ */
 @Singleton
 @Component(
     modules = [

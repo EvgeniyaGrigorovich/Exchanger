@@ -3,7 +3,9 @@ package com.devgenius.exchangerdi.app
 import android.app.Application
 import com.devgenius.exchangerdi.modules.DatabaseModule
 
-
+/**
+ * Application
+ */
 class App : Application() {
 
     /**

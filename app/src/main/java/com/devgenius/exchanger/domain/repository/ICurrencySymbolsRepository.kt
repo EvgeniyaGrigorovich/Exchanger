@@ -1,8 +1,6 @@
 package com.devgenius.exchanger.domain.repository
 
 import com.devgenius.exchanger.domain.common.SymbolsResult
-import com.devgenius.exchanger.domain.common.base.BaseResult
-import com.devgenius.exchanger.domain.entity.Symbols
 import kotlinx.coroutines.flow.Flow
 
 /**

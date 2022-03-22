@@ -1,11 +1,10 @@
 package com.devgenius.exchanger.data.repository
 
-import android.util.Log
 import com.devgenius.exchanger.data.entity.CurrencyDTO
 import com.devgenius.exchanger.data.local.db.dbmodel.RateDbModel
 import com.devgenius.exchanger.data.local.storage.IRatesLocalStorage
 import com.devgenius.exchanger.data.storage.IExchangerRemoteStorage
-import com.devgenius.exchanger.domain.common.base.BaseResult
+import com.devgenius.exchanger.domain.common.BaseResult
 import com.devgenius.exchanger.domain.entity.Currency
 import com.devgenius.exchanger.domain.entity.Rate
 import com.devgenius.exchanger.domain.repository.IExchangerRepository

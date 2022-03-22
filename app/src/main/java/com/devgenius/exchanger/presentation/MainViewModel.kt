@@ -5,7 +5,7 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
 import com.devgenius.exchanger.domain.action.MainScreenAction
 import com.devgenius.exchanger.domain.common.SymbolsResult
-import com.devgenius.exchanger.domain.common.base.BaseResult
+import com.devgenius.exchanger.domain.common.BaseResult
 import com.devgenius.exchanger.domain.entity.Rate
 import com.devgenius.exchanger.domain.usecase.GetAllCurrenciesUseCase
 import com.devgenius.exchanger.domain.usecase.GetAllCurrencySymbolsUseCase

@@ -10,7 +10,6 @@ import com.devgenius.exchanger.data.entity.SymbolsDTO
 import com.devgenius.exchanger.data.local.db.dbmodel.RateDbModel
 import com.devgenius.exchanger.domain.entity.Currency
 import com.devgenius.exchanger.domain.entity.Rate
-import com.devgenius.exchanger.domain.entity.Symbols
 import com.devgenius.exchanger.presentation.converters.CurrencyToCurrencyViewModelConverter
 import com.devgenius.exchanger.presentation.converters.RatesListToSymbolsConverter
 import com.devgenius.exchanger.presentation.converters.RatesToRatesViewModelConverter

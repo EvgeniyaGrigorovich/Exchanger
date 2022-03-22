@@ -2,11 +2,13 @@ package com.devgenius.exchanger.data.converters
 
 import com.devgenius.exchanger.data.entity.CurrencyDTO
 import com.devgenius.exchanger.domain.entity.Currency
-import com.devgenius.exchanger.domain.entity.Rate
 import com.devgenius.exchanger.utils.OneWayConverter
 
 /**
  * Конвертер из [CurrencyDTO] в [Currency]
+ *
+ * @constructor
+ * @param ratesDtoConverter конвертер из map c валютами в лист [Rate]
  *
  * @author Evgeniia Grigorovich
  */

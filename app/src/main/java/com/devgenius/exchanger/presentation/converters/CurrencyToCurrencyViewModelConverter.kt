@@ -18,8 +18,10 @@ internal class CurrencyToCurrencyViewModelConverter(
 ) : OneWayConverter<Currency, CurrencyViewModel> {
 
     override suspend fun convert(from: Currency): CurrencyViewModel {
-        return CurrencyViewModel(success = from.success,
-        base = from.base,
-        rates = ratesConverter.convert(from.rates))
+        return CurrencyViewModel(
+            success = from.success,
+            base = from.base,
+            rates = ratesConverter.convert(from.rates)
+        )
     }
 }

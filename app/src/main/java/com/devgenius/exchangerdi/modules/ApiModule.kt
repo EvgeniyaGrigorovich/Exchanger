@@ -1,6 +1,5 @@
 package com.devgenius.exchangerdi.modules
 
-import android.content.Context
 import com.devgenius.exchanger.data.api.ExchangeApi
 import com.devgenius.exchanger.data.entity.CurrencyDTO
 import com.devgenius.exchanger.data.entity.SymbolsDTO
@@ -16,7 +15,6 @@ import com.devgenius.exchanger.data.storage.ICurrencySymbolsRemoteStorage
 import com.devgenius.exchanger.data.storage.IExchangerRemoteStorage
 import com.devgenius.exchanger.domain.entity.Currency
 import com.devgenius.exchanger.domain.entity.Rate
-import com.devgenius.exchanger.domain.entity.Symbols
 import com.devgenius.exchanger.domain.repository.ICurrencySymbolsRepository
 import com.devgenius.exchanger.domain.repository.IExchangerRepository
 import com.devgenius.exchanger.utils.OneWayConverter

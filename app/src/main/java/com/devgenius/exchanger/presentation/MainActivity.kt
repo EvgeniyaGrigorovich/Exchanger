@@ -1,10 +1,8 @@
 package com.devgenius.exchanger.presentation
 
 import android.annotation.SuppressLint
-import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import android.view.MenuInflater
 import android.view.View
 import android.widget.AdapterView
@@ -12,7 +10,6 @@ import android.widget.ArrayAdapter
 import android.widget.PopupMenu
 import android.widget.Toast
 import androidx.activity.viewModels
-import androidx.annotation.RequiresApi
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import by.kirich1409.viewbindingdelegate.viewBinding
@@ -142,7 +139,6 @@ class MainActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener {
                             )
                         )
                     }
-
                     R.id.menu_alphabet_asc -> {
                         binding.textViewSort.text = getString(R.string.button_sort_alphabet_asc)
                         viewModel.executeAction(
@@ -151,7 +147,6 @@ class MainActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener {
                             )
                         )
                     }
-
                     R.id.menu_value_desc -> {
                         binding.textViewSort.text = getString(R.string.button_sort_value_desc)
                         viewModel.executeAction(
@@ -160,7 +155,6 @@ class MainActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener {
                             )
                         )
                     }
-
                     R.id.menu_value_asc -> {
                         binding.textViewSort.text = getString(R.string.button_sort_value_asc)
                         viewModel.executeAction(
@@ -216,12 +210,7 @@ class MainActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener {
                 parent?.selectedItem.toString()
             )
         )
-//        parent?.selectedItem
     }
 
     override fun onNothingSelected(parent: AdapterView<*>?) {}
-
-    companion object {
-        private const val DEFAULT_VaLUE = "EUR"
-    }
 }

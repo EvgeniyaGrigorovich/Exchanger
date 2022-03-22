@@ -1,8 +1,6 @@
 package com.devgenius.exchanger.domain.usecase
 
 import com.devgenius.exchanger.domain.common.SymbolsResult
-import com.devgenius.exchanger.domain.common.base.BaseResult
-import com.devgenius.exchanger.domain.entity.Symbols
 import com.devgenius.exchanger.domain.repository.ICurrencySymbolsRepository
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject

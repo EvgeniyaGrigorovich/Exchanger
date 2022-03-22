@@ -35,7 +35,7 @@ sealed class MainScreenGlobalState {
      *
      * @param isLoading состояние сазрузки
      */
-    data class LOADING ( val isLoading : Boolean) : MainScreenGlobalState()
+    data class LOADING(val isLoading: Boolean) : MainScreenGlobalState()
 
 
     /**
@@ -43,7 +43,7 @@ sealed class MainScreenGlobalState {
      *
      * @param message сообщение ошибки
      */
-    data class SHOW_MESSAGE (val message: String): MainScreenGlobalState()
+    data class SHOW_MESSAGE(val message: String) : MainScreenGlobalState()
 
     /**
      * Начальный стейт

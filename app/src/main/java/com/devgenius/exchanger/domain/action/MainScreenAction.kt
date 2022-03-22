@@ -1,6 +1,5 @@
 package com.devgenius.exchanger.domain.action
 
-import com.devgenius.exchanger.domain.entity.Currency
 import com.devgenius.exchanger.domain.entity.Rate
 import com.devgenius.exchanger.presentation.states.SortedState
 

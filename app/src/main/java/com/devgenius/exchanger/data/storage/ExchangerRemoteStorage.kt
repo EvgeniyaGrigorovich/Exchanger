@@ -7,6 +7,8 @@ import retrofit2.Response
 
 /**
  * Реализация интерфейса [IExchangerRemoteStorage]
+ *
+ * @author Evgeniia Grigorovich
  */
 internal class ExchangerRemoteStorage(
     private val exchangerApi: ExchangeApi
