@@ -3,12 +3,10 @@ package com.devgenius.exchanger.presentation
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
-import com.devgenius.exchanger.R
 import com.devgenius.exchanger.domain.action.MainScreenAction
 import com.devgenius.exchanger.domain.common.SymbolsResult
 import com.devgenius.exchanger.domain.common.base.BaseResult
 import com.devgenius.exchanger.domain.entity.Rate
-import com.devgenius.exchanger.domain.entity.Symbols
 import com.devgenius.exchanger.domain.usecase.GetAllCurrenciesUseCase
 import com.devgenius.exchanger.domain.usecase.GetAllCurrencySymbolsUseCase
 import com.devgenius.exchanger.domain.usecase.GetFavouriteCurrenciesUseCase
@@ -17,7 +15,6 @@ import com.devgenius.exchanger.presentation.states.MainScreenGlobalState
 import com.devgenius.exchanger.presentation.states.MainScreenInternalState
 import com.devgenius.exchanger.presentation.states.MainScreenViewState
 import com.devgenius.exchanger.presentation.states.SortedState
-import com.devgenius.exchangerdi.app.App
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -45,8 +42,9 @@ class MainViewModel @Inject constructor(
             MainScreenViewState(
                 globalState = MainScreenGlobalState.INIT,
                 internalState = MainScreenInternalState(
-                    isSorted = SortedState.Default,
-                    currency = DEFAULT_CURRENCY
+                    isSorted = SortedState.ByAlphabet(false),
+                    currency = DEFAULT_CURRENCY,
+                    isFavouriteScreen = false
                 )
             )
         )
@@ -75,13 +73,27 @@ class MainViewModel @Inject constructor(
         when (action) {
             is MainScreenAction.OpenFavouritesScreen -> getFavouriteCurrencies()
             is MainScreenAction.OpenMainScreen -> getAllCurrencies(states.value.internalState.currency)
-            is MainScreenAction.ChangeSortedState -> changeSort(action.newSortedState)
+            is MainScreenAction.ChangeSortedState -> setSelectedSort(
+                action.newSortedState,
+                rates.value
+            )
             is MainScreenAction.SaveToFavourites -> saveToFavourite(action.rate)
-            is MainScreenAction.ChangeCurrency -> getAllCurrencies(action.currency)
+            is MainScreenAction.ChangeCurrency -> if (states.value.internalState.isFavouriteScreen) {
+                getFavouriteCurrencies()
+            } else {
+                getAllCurrencies(action.currency)
+            }
         }
     }
 
     private fun getFavouriteCurrencies() {
+        states.value = states.value.copy(
+            internalState = MainScreenInternalState(
+                isFavouriteScreen = true,
+                isSorted = states.value.internalState.isSorted,
+                currency = states.value.internalState.currency
+            )
+        )
         viewModelScope.launch {
             getFavouriteCurrenciesUseCase.getFromLocal()
                 .collect { resultRate ->
@@ -97,10 +109,13 @@ class MainViewModel @Inject constructor(
                         hideLoading()
                         when (resultCurrency) {
                             is BaseResult.Success -> {
-                                rates.value = resultCurrency.data.rates
+                                setSelectedSort(
+                                    states.value.internalState.isSorted,
+                                    resultCurrency.data.rates
+                                )
                             }
                             is BaseResult.Error -> {
-                                rates.value = resultRate
+                                setSelectedSort(states.value.internalState.isSorted, resultRate)
 //                                showMessage(
 ////                                    resource = R.string.cannot_download_favourites
 //                                )
@@ -116,7 +131,8 @@ class MainViewModel @Inject constructor(
         states.value = states.value.copy(
             internalState = MainScreenInternalState(
                 currency = base,
-                isSorted = states.value.internalState.isSorted
+                isSorted = states.value.internalState.isSorted,
+                isFavouriteScreen = false
             )
         )
         viewModelScope.launch {
@@ -133,8 +149,9 @@ class MainViewModel @Inject constructor(
                     hideLoading()
                     when (result) {
                         is BaseResult.Success -> {
-                            rates.value = result.data.rates
+                            setSelectedSort(states.value.internalState.isSorted, result.data.rates)
                         }
+
 //                        is BaseResult.Error -> {
 //                            showMessage(resource = R.string.cannot_download_currency)
 //                        }
@@ -153,32 +170,40 @@ class MainViewModel @Inject constructor(
         )
     }
 
-    private fun changeSort(newSortedState: SortedState) {
+    private fun setSelectedSort(newSortedState: SortedState, ratesList: List<Rate>) {
+        states.value = states.value.copy(
+            internalState = MainScreenInternalState(
+                isFavouriteScreen = states.value.internalState.isFavouriteScreen,
+                isSorted = newSortedState,
+                currency = states.value.internalState.currency
+            )
+        )
+
         viewModelScope.launch {
             val newList = mutableListOf<Rate>()
             when (newSortedState) {
                 is SortedState.ByAlphabet -> if (newSortedState.isAscending) {
-                    newList.addAll(rates.value.sortedByDescending {
+                    newList.addAll(ratesList.sortedByDescending {
                         it.currency
                     }
                     )
 
                 } else {
                     newList.addAll(
-                        rates.value.sortedByDescending {
+                        ratesList.sortedByDescending {
                             it.currency
                         }.reversed()
                     )
                 }
                 is SortedState.ByValue -> if (newSortedState.isAscending) {
                     newList.addAll(
-                        rates.value.sortedByDescending {
+                        ratesList.sortedByDescending {
                             it.value
                         }.reversed()
                     )
                 } else {
                     newList.addAll(
-                        rates.value.sortedByDescending {
+                        ratesList.sortedByDescending {
                             it.value
                         }
                     )

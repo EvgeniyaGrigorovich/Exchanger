@@ -18,5 +18,4 @@ class GetAllCurrenciesUseCase @Inject constructor(
     suspend fun invoke(base: String): Flow<BaseResult<Currency>> {
         return repository.getCurrencyFromRemote(base)
     }
-
 }

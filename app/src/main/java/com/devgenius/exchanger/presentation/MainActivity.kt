@@ -63,7 +63,13 @@ class MainActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener {
     }
 
     private fun setupRecyclerView() {
-        viewModel.executeAction(MainScreenAction.OpenMainScreen(sortedState = SortedState.Default))
+        viewModel.executeAction(
+            MainScreenAction.OpenMainScreen(
+                sortedState = SortedState.ByAlphabet(
+                    true
+                )
+            )
+        )
 
         binding.currencyRecycler.apply {
             layoutManager = LinearLayoutManager(this@MainActivity)

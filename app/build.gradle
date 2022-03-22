@@ -26,7 +26,7 @@ android {
         }
 
         debug {
-            buildConfigField "String", "API", "\"http://api.exchangeratesapi.io/v1/\""
+            buildConfigField "String", "API", "\"https://api.exchangeratesapi.io/v1/\""
             buildConfigField "String", "API_KEY", "\"faeb10dccd3ed248d9fcbb126aeb1bc5\""
             buildConfigField "String", "API_KEY_LABEL", "\"access_key\""
         }

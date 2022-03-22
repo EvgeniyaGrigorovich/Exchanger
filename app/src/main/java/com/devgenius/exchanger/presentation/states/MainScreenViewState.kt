@@ -16,12 +16,11 @@ data class MainScreenViewState(
 /**
  * Класс с элементами состояния
  *
- * @property isAllCurrenciesShown показывать ли все загруженные валюты
- * @property isFavouritesShown показывать ли только избранные
  * @property isSorted каким способом нужно сортировать элементы
  * @property currency выбранная валюта
  */
 data class MainScreenInternalState(
+    val isFavouriteScreen: Boolean,
     val isSorted: SortedState,
     val currency: String
 )
@@ -56,11 +55,6 @@ sealed class MainScreenGlobalState {
  * Класс с состоянием сортировки
  */
 sealed class SortedState {
-
-    /**
-     * По умолчанию
-     */
-    object Default : SortedState()
 
     /**
      * По алфавиту
