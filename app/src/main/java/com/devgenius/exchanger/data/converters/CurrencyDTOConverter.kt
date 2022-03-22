@@ -11,15 +11,14 @@ import com.devgenius.exchanger.utils.OneWayConverter
  * @author Evgeniia Grigorovich
  */
 internal class CurrencyDTOConverter(
-    private val ratesDtoConverter: OneWayConverter<Map<String, Double>, List<Rate>>
+    private val ratesDtoConverter: IRatesDtoConverter
 ) : OneWayConverter<CurrencyDTO, Currency> {
 
     override suspend fun convert(from: CurrencyDTO): Currency {
         return Currency(
             success = from.success,
             base = from.base,
-            rates = ratesDtoConverter.convert(from.rates)
+            rates = ratesDtoConverter.convert(from.rates, from.base)
         )
     }
-
 }

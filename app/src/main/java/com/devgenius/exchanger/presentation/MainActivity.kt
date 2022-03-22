@@ -27,14 +27,14 @@ import com.devgenius.exchanger.presentation.states.SortedState
 import com.devgenius.exchangerdi.app.App
 import kotlinx.coroutines.launch
 
-class MainActivity : AppCompatActivity(),  AdapterView.OnItemSelectedListener {
+class MainActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener {
 
     private val viewModel: MainViewModel by viewModels {
         (application as App).appComponent.provideViewModelFactory()
     }
     private val binding: ActivityMainBinding by viewBinding()
-
     private val currencyAdapter by lazy { CurrencyItemAdapter(listOf()) }
+    private val spinnerList = mutableListOf("EUR")
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -42,7 +42,6 @@ class MainActivity : AppCompatActivity(),  AdapterView.OnItemSelectedListener {
 
         setupRecyclerView()
         setBottomNavigation()
-        setMenu()
         setSpinner()
     }
 
@@ -51,6 +50,16 @@ class MainActivity : AppCompatActivity(),  AdapterView.OnItemSelectedListener {
 
         observeProducts()
         observeState()
+        observeSymbols()
+        setMenu()
+    }
+
+    private fun observeSymbols() {
+        lifecycleScope.launch {
+            viewModel.mainScreenSymbol.collect {
+                spinnerList.addAll(it)
+            }
+        }
     }
 
     private fun setupRecyclerView() {
@@ -183,22 +192,30 @@ class MainActivity : AppCompatActivity(),  AdapterView.OnItemSelectedListener {
         }
     }
 
-    private fun setSpinner(){
-        ArrayAdapter.createFromResource(
+    private fun setSpinner() {
+        binding.currencySpinner.onItemSelectedListener = this
+        val adapter = ArrayAdapter(
             this,
-            R.array.values_array,
-            android.R.layout.simple_spinner_item
+            android.R.layout.simple_spinner_item,
+            spinnerList
         ).also { adapter ->
             adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
             binding.currencySpinner.adapter = adapter
         }
-        binding.currencySpinner.onItemSelectedListener = this
     }
 
     override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
-        parent?.selectedItem
-
+        viewModel.executeAction(
+            MainScreenAction.ChangeCurrency(
+                parent?.selectedItem.toString()
+            )
+        )
+//        parent?.selectedItem
     }
 
     override fun onNothingSelected(parent: AdapterView<*>?) {}
+
+    companion object {
+        private const val DEFAULT_VaLUE = "EUR"
+    }
 }

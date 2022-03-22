@@ -4,6 +4,7 @@ import android.os.Parcelable
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import kotlinx.android.parcel.Parcelize
+import java.math.BigDecimal
 
 /**
  * Модель обектов для базы данных
@@ -18,5 +19,6 @@ data class RateDbModel(
     @PrimaryKey(autoGenerate = true)
     val id: Int?,
     val currency: String,
-    val value: String
+    val value: Double,
+    val convertedCurrency: String
 ) : Parcelable

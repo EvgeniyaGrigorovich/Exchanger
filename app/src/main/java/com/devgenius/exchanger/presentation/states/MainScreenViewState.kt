@@ -19,11 +19,11 @@ data class MainScreenViewState(
  * @property isAllCurrenciesShown показывать ли все загруженные валюты
  * @property isFavouritesShown показывать ли только избранные
  * @property isSorted каким способом нужно сортировать элементы
+ * @property currency выбранная валюта
  */
 data class MainScreenInternalState(
-    val isAllCurrenciesShown: Boolean,
-    val isFavouritesShown: Boolean,
-    val isSorted: SortedState
+    val isSorted: SortedState,
+    val currency: String
 )
 
 /**

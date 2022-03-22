@@ -16,7 +16,7 @@ interface IExchangerRepository {
     /**
      * Получить список валют по сети
      */
-    suspend fun getCurrencyFromRemote(): Flow<BaseResult<Currency>>
+    suspend fun getCurrencyFromRemote(base: String): Flow<BaseResult<Currency>>
 
     /**
      * Сохранить валюту в избранное
@@ -26,7 +26,10 @@ interface IExchangerRepository {
     /**
      *  Получить список избранных валют по сети
      */
-    suspend fun getFavouriteCurrencyFromRemote(rateList: List<Rate>): Flow<BaseResult<Currency>>
+    suspend fun getFavouriteCurrencyFromRemote(
+        base: String,
+        symbols: List<Rate>
+    ): Flow<BaseResult<Currency>>
 
     /**
      * Получить список избранных валют из базы данных

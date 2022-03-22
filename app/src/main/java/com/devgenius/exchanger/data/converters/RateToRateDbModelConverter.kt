@@ -15,6 +15,7 @@ internal class RateToRateDbModelConverter : OneWayConverter<Rate, RateDbModel> {
         RateDbModel(
             id = null,
             currency = from.currency,
-            value = from.value
+            value = from.value.toDouble(),
+            convertedCurrency = from.convertedCurrency
         )
 }

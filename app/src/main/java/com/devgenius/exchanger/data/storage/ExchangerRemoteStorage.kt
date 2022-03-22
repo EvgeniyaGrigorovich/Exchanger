@@ -12,11 +12,17 @@ internal class ExchangerRemoteStorage(
     private val exchangerApi: ExchangeApi
 ) : IExchangerRemoteStorage {
 
-    override suspend fun getCurrencyFromRemote(): Response<CurrencyDTO> {
-        return exchangerApi.getCurrency(BuildConfig.API_KEY)
+    override suspend fun getCurrencyFromRemote(base: String): Response<CurrencyDTO> {
+        return exchangerApi.getCurrency(
+            apiKey = BuildConfig.API_KEY,
+            base = base)
     }
 
-    override suspend fun getFavouriteCurrencyFromRemote(symbols: String): Response<CurrencyDTO> {
-        return exchangerApi.getFavouriteCurrency(BuildConfig.API_KEY, currency = symbols)
+    override suspend fun getFavouriteCurrencyFromRemote(symbols: String, base: String): Response<CurrencyDTO> {
+        return exchangerApi.getFavouriteCurrency(
+            apiKey = BuildConfig.API_KEY,
+            base = base,
+            currency = symbols
+        )
     }
 }

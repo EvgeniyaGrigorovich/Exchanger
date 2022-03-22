@@ -1,6 +1,5 @@
 package com.devgenius.exchanger.data.entity
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties
 import com.google.gson.annotations.SerializedName
 import java.util.*
 
@@ -16,7 +15,6 @@ import java.util.*
  *
  * @author Evgeniia Griorovich
  */
-@JsonIgnoreProperties(ignoreUnknown = true)
 data class CurrencyDTO(
 
     @SerializedName("success")

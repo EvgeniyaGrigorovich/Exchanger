@@ -47,4 +47,14 @@ sealed class MainScreenAction {
         val rate: Rate
     ) : MainScreenAction()
 
+
+    /**
+     * Намерение поменять конвертируемую валюту
+     *
+     * @param currency валюта для сохранения
+     */
+    data class ChangeCurrency(
+        val currency: String
+    ) : MainScreenAction()
+
 }

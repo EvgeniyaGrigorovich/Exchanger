@@ -14,7 +14,11 @@ internal class RateDbModelToRateConverter :
     override suspend fun convert(from: Flow<List<RateDbModel>>): Flow<List<Rate>> =
         from.map { listModels ->
             listModels.map { rateDbModel ->
-                Rate(currency = rateDbModel.currency, value = rateDbModel.value)
+                Rate(
+                    currency = rateDbModel.currency,
+                    value = rateDbModel.value.toBigDecimal().abs(),
+                    convertedCurrency = rateDbModel.convertedCurrency
+                )
             }
         }
 }

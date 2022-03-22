@@ -1,5 +1,7 @@
 package com.devgenius.exchanger.presentation.models
 
+import java.math.BigDecimal
+
 /**
  * Модель валюты для отображения на главном экране
  *
@@ -11,5 +13,5 @@ package com.devgenius.exchanger.presentation.models
  */
 data class RateViewModel(
     val currency: String,
-    val value: String
+    val value: BigDecimal
 )

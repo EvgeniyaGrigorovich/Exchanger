@@ -1,13 +1,16 @@
 package com.devgenius.exchangerdi.modules
 
+import com.devgenius.exchanger.data.converters.*
 import com.devgenius.exchanger.data.converters.CurrencyDTOConverter
 import com.devgenius.exchanger.data.converters.RateDbModelToRateConverter
 import com.devgenius.exchanger.data.converters.RateToRateDbModelConverter
 import com.devgenius.exchanger.data.converters.RatesDtoConverter
 import com.devgenius.exchanger.data.entity.CurrencyDTO
+import com.devgenius.exchanger.data.entity.SymbolsDTO
 import com.devgenius.exchanger.data.local.db.dbmodel.RateDbModel
 import com.devgenius.exchanger.domain.entity.Currency
 import com.devgenius.exchanger.domain.entity.Rate
+import com.devgenius.exchanger.domain.entity.Symbols
 import com.devgenius.exchanger.presentation.converters.CurrencyToCurrencyViewModelConverter
 import com.devgenius.exchanger.presentation.converters.RatesListToSymbolsConverter
 import com.devgenius.exchanger.presentation.converters.RatesToRatesViewModelConverter
@@ -60,5 +63,13 @@ class ConverterModule {
     @Provides
     fun provideRateListToSymbolConverter(): OneWayConverter<List<Rate>, String> {
         return RatesListToSymbolsConverter()
+    }
+
+    /**
+     * Предоставляет [SymbolsDTOToSymbolsConverter] в граф зависимостей
+     */
+    @Provides
+    fun provideSymbolsDTOToSymbolsConverter(): OneWayConverter<SymbolsDTO, List<String>>{
+        return SymbolsDTOToSymbolsConverter()
     }
 }

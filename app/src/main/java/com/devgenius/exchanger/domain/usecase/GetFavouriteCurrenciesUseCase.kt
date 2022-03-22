@@ -12,15 +12,18 @@ import javax.inject.Inject
  *
  * @author Evgeniia Grigorovich
  */
-class GetFavouriteCurrenciesUseCase  @Inject constructor(
+class GetFavouriteCurrenciesUseCase @Inject constructor(
     private val repository: IExchangerRepository
 ) {
 
-    suspend fun getFromLocal(): Flow<List<Rate>>{
+    suspend fun getFromLocal(): Flow<List<Rate>> {
         return repository.getCurrencyFromLocal()
     }
 
-    suspend fun getFromRemote(ratesList: List<Rate>): Flow<BaseResult<Currency>>{
-        return repository.getFavouriteCurrencyFromRemote(ratesList)
+    suspend fun getFromRemote(base: String, symbols: List<Rate>): Flow<BaseResult<Currency>> {
+        return repository.getFavouriteCurrencyFromRemote(
+            base = base,
+            symbols = symbols
+        )
     }
 }

@@ -32,9 +32,11 @@ internal class ExchangerRepository(
     private val ratesListToSymbolsConverter: OneWayConverter<List<Rate>, String>
 ) : IExchangerRepository {
 
-    override suspend fun getCurrencyFromRemote(): Flow<BaseResult<Currency>> {
+    override suspend fun getCurrencyFromRemote(base: String): Flow<BaseResult<Currency>> {
         return flow {
-            val response = remoteStorage.getCurrencyFromRemote()
+            val response = remoteStorage.getCurrencyFromRemote(
+                base = base
+            )
             if (response.isSuccessful) {
                 val body = response.body()
                 val currency = body?.let { currencyConverter.convert(it) }
@@ -55,10 +57,11 @@ internal class ExchangerRepository(
         )
     }
 
-    override suspend fun getFavouriteCurrencyFromRemote(list: List<Rate>): Flow<BaseResult<Currency>> {
+    override suspend fun getFavouriteCurrencyFromRemote(base: String, list: List<Rate>): Flow<BaseResult<Currency>> {
         return flow {
             val response = remoteStorage.getFavouriteCurrencyFromRemote(
-                ratesListToSymbolsConverter.convert(list)
+                base = base,
+                symbols = ratesListToSymbolsConverter.convert(list)
             )
             if (response.isSuccessful) {
                 val body = response.body()

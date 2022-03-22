@@ -15,8 +15,8 @@ class GetAllCurrenciesUseCase @Inject constructor(
     private val repository: IExchangerRepository
 ) {
 
-    suspend fun invoke() : Flow<BaseResult<Currency>> {
-        return repository.getCurrencyFromRemote()
+    suspend fun invoke(base: String): Flow<BaseResult<Currency>> {
+        return repository.getCurrencyFromRemote(base)
     }
 
 }
