@@ -10,10 +10,7 @@ import com.devgenius.exchanger.data.entity.SymbolsDTO
 import com.devgenius.exchanger.data.local.db.dbmodel.RateDbModel
 import com.devgenius.exchanger.domain.entity.Currency
 import com.devgenius.exchanger.domain.entity.Rate
-import com.devgenius.exchanger.presentation.converters.CurrencyToCurrencyViewModelConverter
 import com.devgenius.exchanger.presentation.converters.RatesListToSymbolsConverter
-import com.devgenius.exchanger.presentation.converters.RatesToRatesViewModelConverter
-import com.devgenius.exchanger.presentation.models.CurrencyViewModel
 import com.devgenius.exchanger.utils.OneWayConverter
 import dagger.Module
 import dagger.Provides
@@ -31,14 +28,6 @@ class ConverterModule {
         return CurrencyDTOConverter(ratesDtoConverter)
     }
 
-    /**
-     * Предоставляет [CurrencyToCurrencyViewModelConverter] в граф зависимостей
-     */
-    @Provides
-    fun provideCurrencyToCurrencyViewModelConverter(): OneWayConverter<Currency, CurrencyViewModel> {
-        val ratesViewModelConverter = RatesToRatesViewModelConverter()
-        return CurrencyToCurrencyViewModelConverter(ratesViewModelConverter)
-    }
 
     /**
      * Предотавляет [RateToRateDbModelConverter] в граф зависимостей

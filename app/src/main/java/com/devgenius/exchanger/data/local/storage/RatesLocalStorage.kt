@@ -2,7 +2,6 @@ package com.devgenius.exchanger.data.local.storage
 
 import com.devgenius.exchanger.data.local.db.RatesDao
 import com.devgenius.exchanger.data.local.db.dbmodel.RateDbModel
-import com.devgenius.exchanger.domain.entity.Rate
 import kotlinx.coroutines.flow.Flow
 
 /**

@@ -1,6 +1,5 @@
 package com.devgenius.exchanger.presentation.adapter
 
-import android.view.MotionEvent
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView

@@ -67,12 +67,13 @@ sealed class MainScreenAction {
 
     /**
      * Намерение произвести долгий клк по айтему
+     *
+     * @param rate айтем, по которому осуществлен клик
      */
     data class LongClickAction(val rate: Rate): MainScreenAction()
 
     /**
      * Намерение обновить данные
-     *
      */
     object Refresh : MainScreenAction()
 }

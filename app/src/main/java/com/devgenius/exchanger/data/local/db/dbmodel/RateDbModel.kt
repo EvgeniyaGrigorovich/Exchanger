@@ -2,7 +2,6 @@ package com.devgenius.exchanger.data.local.db.dbmodel
 
 import android.os.Parcelable
 import androidx.room.Entity
-import androidx.room.OnConflictStrategy
 import androidx.room.PrimaryKey
 import kotlinx.android.parcel.Parcelize
 
