@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
@@ -10,14 +9,13 @@
         android:layout_height="@dimen/currency_item_width"
         android:layout_marginVertical="@dimen/rate_item_margin"
         android:layout_marginBottom="@dimen/rate_item_margin"
+        android:elevation="@dimen/card_view_elevation"
+        app:cardCornerRadius="@dimen/card_view_corner"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:cardCornerRadius="@dimen/card_view_corner"
-        android:elevation="@dimen/card_view_elevation"
-        app:strokeWidth="@dimen/card_view_stroke"
         app:strokeColor="@color/mainGreen"
-        >
+        app:strokeWidth="@dimen/card_view_stroke">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -50,7 +48,7 @@
                 android:layout_height="wrap_content"
                 android:gravity="center"
                 android:text="123.4"
-                android:textColor="@color/black"
+                android:textColor="?attr/text_color"
                 android:textSize="@dimen/currency_value_text_size"
                 android:textStyle="bold"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -65,17 +63,17 @@
                 android:orientation="vertical"
                 app:layout_constraintGuide_percent="0.8" />
 
-            <ImageButton
+            <ImageView
                 android:id="@+id/button_add_to_favourite"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:adjustViewBounds="true"
                 android:src="@drawable/ic_baseline_star_rate_24"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="@+id/guideline2"
                 app:layout_constraintTop_toTopOf="parent"
-                android:backgroundTint="@color/white"
-                android:adjustViewBounds="true"/>
+              />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

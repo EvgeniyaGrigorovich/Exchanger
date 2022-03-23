@@ -205,7 +205,7 @@ class MainActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener {
 
     private fun setBottomNavigation() {
         with(binding) {
-            bottomNavigationView.setOnItemReselectedListener { item ->
+            bottomNavigationView.setOnItemSelectedListener { item ->
                 when (item.itemId) {
                     R.id.buttonFavourites -> viewModel.executeAction(
                         MainScreenAction.OpenFavouritesScreen(
@@ -217,7 +217,9 @@ class MainActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener {
                             sortedState = viewModel.mainScreenState.value.internalState.isSorted
                         )
                     )
+
                 }
+                true
             }
         }
     }
