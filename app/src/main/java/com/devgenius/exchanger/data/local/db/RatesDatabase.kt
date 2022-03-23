@@ -9,7 +9,7 @@ import com.devgenius.exchanger.data.local.db.dbmodel.RateDbModel
  *
  * @author Evgeniia Grigorovich
  */
-@Database(entities = [RateDbModel::class], version = 4, exportSchema = true)
+@Database(entities = [RateDbModel::class], version = 5, exportSchema = true)
 abstract class RatesDatabase : RoomDatabase() {
 
     /**

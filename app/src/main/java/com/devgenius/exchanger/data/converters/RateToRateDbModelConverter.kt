@@ -13,7 +13,6 @@ internal class RateToRateDbModelConverter : OneWayConverter<Rate, RateDbModel> {
 
     override suspend fun convert(from: Rate) =
         RateDbModel(
-            id = null,
             currency = from.currency,
             value = from.value.toDouble(),
             convertedCurrency = from.convertedCurrency
