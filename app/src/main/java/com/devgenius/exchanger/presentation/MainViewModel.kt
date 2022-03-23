@@ -11,7 +11,6 @@ import com.devgenius.exchanger.domain.usecase.GetAllCurrenciesUseCase
 import com.devgenius.exchanger.domain.usecase.GetAllCurrencySymbolsUseCase
 import com.devgenius.exchanger.domain.usecase.GetFavouriteCurrenciesUseCase
 import com.devgenius.exchanger.domain.usecase.SaveCurrencyToFavouritesUseCase
-import com.devgenius.exchanger.presentation.states.MainScreenGlobalState
 import com.devgenius.exchanger.presentation.states.MainScreenInternalState
 import com.devgenius.exchanger.presentation.states.MainScreenViewState
 import com.devgenius.exchanger.presentation.states.SortedState
@@ -23,7 +22,8 @@ class MainViewModel @Inject constructor(
     private val getAllCurrenciesUseCase: GetAllCurrenciesUseCase,
     private val getFavouriteCurrenciesUseCase: GetFavouriteCurrenciesUseCase,
     private val saveCurrencyToFavouritesUseCase: SaveCurrencyToFavouritesUseCase,
-    private val symbolsCurrencyUseCase: GetAllCurrencySymbolsUseCase
+    private val symbolsCurrencyUseCase: GetAllCurrencySymbolsUseCase,
+    private val stateReducer: MainScreenViewStateReducer
 ) : AndroidViewModel(Application()) {
 
     init {
@@ -37,76 +37,53 @@ class MainViewModel @Inject constructor(
         }
     }
 
-    private val states =
-        MutableStateFlow<MainScreenViewState>(
-            MainScreenViewState(
-                globalState = MainScreenGlobalState.INIT,
-                internalState = MainScreenInternalState(
-                    isSorted = SortedState.ByAlphabet(false),
-                    currency = DEFAULT_CURRENCY,
-                    isFavouriteScreen = false
-                )
-            )
-        )
+    private val states = MutableStateFlow(stateReducer.currentState())
     val mainScreenState: StateFlow<MainScreenViewState> = states
 
-    private val rates =
-        MutableStateFlow<List<Rate>>(listOf())
+    private val rates = MutableStateFlow<List<Rate>>(listOf())
     val mainScreenRates: StateFlow<List<Rate>> = rates
 
     private val symbols = MutableStateFlow<List<String>>(listOf())
     val mainScreenSymbol: StateFlow<List<String>> = symbols
 
-    private fun setLoading() {
-        states.value = states.value.copy(
-            globalState = MainScreenGlobalState.LOADING(true)
-        )
-    }
-
-    private fun hideLoading() {
-        states.value = states.value.copy(
-            globalState = MainScreenGlobalState.LOADING(false)
-        )
-    }
-
     fun executeAction(action: MainScreenAction) {
         when (action) {
             is MainScreenAction.OpenFavouritesScreen -> getFavouriteCurrencies()
-            is MainScreenAction.OpenMainScreen -> getAllCurrencies(states.value.internalState.currency)
+            is MainScreenAction.OpenMainScreen -> getAllCurrencies()
             is MainScreenAction.ChangeSortedState -> setSelectedSort(
                 action.newSortedState,
                 rates.value
             )
             is MainScreenAction.SaveToFavourites -> saveToFavourite(action.rate)
-            is MainScreenAction.ChangeCurrency -> if (states.value.internalState.isFavouriteScreen) {
-                getFavouriteCurrencies()
-            } else {
-                getAllCurrencies(action.currency)
-            }
+            is MainScreenAction.ChangeCurrency -> changeCurrency(action.currency)
+        }
+    }
+
+    private fun changeCurrency(currency: String) {
+        states.value = stateReducer.changeCurrency(currency)
+        if (states.value.internalState.isFavouriteScreen) {
+            getFavouriteCurrencies()
+        } else {
+            getAllCurrencies()
         }
     }
 
     private fun getFavouriteCurrencies() {
-        states.value = states.value.copy(
-            internalState = MainScreenInternalState(
-                isFavouriteScreen = true,
-                isSorted = states.value.internalState.isSorted,
-                currency = states.value.internalState.currency
-            )
-        )
         viewModelScope.launch {
+            states.emit(stateReducer.setupFavouritesState())
+
             getFavouriteCurrenciesUseCase.getFromLocal()
                 .collect { resultRate ->
                     getFavouriteCurrenciesUseCase.getFromRemote(
                         base = states.value.internalState.currency,
                         symbols = resultRate
                     ).onStart {
-                        setLoading()
+                        states.value = stateReducer.setLoadingState()
                     }.catch { exception ->
-                        hideLoading()
+                        states.value = stateReducer.hideLoading()
                         showMessage(exception.message.toString())
                     }.collect { resultCurrency ->
-                        hideLoading()
+                        states.value = stateReducer.hideLoading()
                         when (resultCurrency) {
                             is BaseResult.Success -> {
                                 setSelectedSort(
@@ -116,7 +93,7 @@ class MainViewModel @Inject constructor(
                             }
                             is BaseResult.Error -> {
                                 setSelectedSort(states.value.internalState.isSorted, resultRate)
-                                 showMessage("Cannot load new data")
+                                showMessage("Cannot load new data")
                             }
                         }
                     }
@@ -125,26 +102,21 @@ class MainViewModel @Inject constructor(
         }
     }
 
-    private fun getAllCurrencies(base: String) {
-        states.value = states.value.copy(
-            internalState = MainScreenInternalState(
-                currency = base,
-                isSorted = states.value.internalState.isSorted,
-                isFavouriteScreen = false
-            )
-        )
+    private fun getAllCurrencies() {
         viewModelScope.launch {
+            states.emit(stateReducer.showAllCurrencyState())
+
             getAllCurrenciesUseCase.invoke(
-                base = base
+                base = states.value.internalState.currency
             ).onStart {
-                setLoading()
+                states.value = stateReducer.setLoadingState()
             }
                 .catch { exception ->
-                    hideLoading()
+                    stateReducer.hideLoading()
                     showMessage(exception.message.toString())
                 }
                 .collect { result ->
-                    hideLoading()
+                    states.value = stateReducer.hideLoading()
                     when (result) {
                         is BaseResult.Success -> {
                             setSelectedSort(states.value.internalState.isSorted, result.data.rates)
@@ -159,24 +131,15 @@ class MainViewModel @Inject constructor(
 
     private fun saveToFavourite(rate: Rate) {
         viewModelScope.launch {
+            states.emit(stateReducer.saveToFavouriteState())
             saveCurrencyToFavouritesUseCase.invoke(rate)
         }
-
-        states.value = states.value.copy(
-            globalState = MainScreenGlobalState.SHOW_MESSAGE("Добавлено")
-        )
     }
 
     private fun setSelectedSort(newSortedState: SortedState, ratesList: List<Rate>) {
-        states.value = states.value.copy(
-            internalState = MainScreenInternalState(
-                isFavouriteScreen = states.value.internalState.isFavouriteScreen,
-                isSorted = newSortedState,
-                currency = states.value.internalState.currency
-            )
-        )
-
         viewModelScope.launch {
+            states.emit(stateReducer.setSelectedSortState(newSortedState))
+
             val newList = mutableListOf<Rate>()
             when (newSortedState) {
                 is SortedState.ByAlphabet -> if (newSortedState.isAscending) {
@@ -184,7 +147,6 @@ class MainViewModel @Inject constructor(
                         it.currency
                     }
                     )
-
                 } else {
                     newList.addAll(
                         ratesList.sortedByDescending {
@@ -211,9 +173,7 @@ class MainViewModel @Inject constructor(
     }
 
     private fun showMessage(message: String) {
-        states.value = states.value.copy(
-            globalState = MainScreenGlobalState.SHOW_MESSAGE(message)
-        )
+        states.value = stateReducer.showMessageState(message)
     }
 
     companion object {

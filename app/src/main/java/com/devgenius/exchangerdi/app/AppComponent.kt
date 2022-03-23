@@ -13,7 +13,8 @@ import javax.inject.Singleton
         ConverterModule::class,
         NetworkModule::class,
         ApiModule::class,
-        DatabaseModule::class]
+        DatabaseModule::class,
+        BaseModule::class]
 )
 interface AppComponent {
 
