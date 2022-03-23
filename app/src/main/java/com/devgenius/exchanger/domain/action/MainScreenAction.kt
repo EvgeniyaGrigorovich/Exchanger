@@ -56,4 +56,9 @@ sealed class MainScreenAction {
         val currency: String
     ) : MainScreenAction()
 
+    /**
+     * Намерение обновить данные
+     *
+     */
+    object Refresh : MainScreenAction()
 }

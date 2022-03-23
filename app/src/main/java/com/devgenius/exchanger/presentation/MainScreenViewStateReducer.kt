@@ -72,6 +72,18 @@ class MainScreenViewStateReducer(
             )
         )
     }
+
+    fun refresh(isRefreshing: Boolean): MainScreenViewState = modify {
+        copy(
+            globalState = MainScreenGlobalState.REFRESHING(isRefreshing),
+            internalState = MainScreenInternalState(
+                isFavouriteScreen = currentState().internalState.isFavouriteScreen,
+                isSorted = currentState().internalState.isSorted,
+                currency = currentState().internalState.currency
+            )
+
+        )
+    }
 }
 
 private fun initViewState(): MainScreenViewState = MainScreenViewState(

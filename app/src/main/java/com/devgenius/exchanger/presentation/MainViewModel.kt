@@ -17,6 +17,7 @@ import com.devgenius.exchanger.presentation.states.SortedState
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import javax.inject.Inject
+import kotlin.math.sign
 
 class MainViewModel @Inject constructor(
     private val getAllCurrenciesUseCase: GetAllCurrenciesUseCase,
@@ -56,6 +57,16 @@ class MainViewModel @Inject constructor(
             )
             is MainScreenAction.SaveToFavourites -> saveToFavourite(action.rate)
             is MainScreenAction.ChangeCurrency -> changeCurrency(action.currency)
+            is MainScreenAction.Refresh -> refreshData()
+        }
+    }
+
+    private fun refreshData() {
+        states.value = stateReducer.refresh(true)
+        if (states.value.internalState.isFavouriteScreen) {
+            getFavouriteCurrencies()
+        } else {
+            getAllCurrencies()
         }
     }
 
@@ -83,13 +94,15 @@ class MainViewModel @Inject constructor(
                         states.value = stateReducer.hideLoading()
                         showMessage(exception.message.toString())
                     }.collect { resultCurrency ->
-                        states.value = stateReducer.hideLoading()
+                        states.emit(stateReducer.hideLoading())
+                        states.emit(stateReducer.refresh(false))
                         when (resultCurrency) {
                             is BaseResult.Success -> {
                                 setSelectedSort(
                                     states.value.internalState.isSorted,
                                     resultCurrency.data.rates
                                 )
+
                             }
                             is BaseResult.Error -> {
                                 setSelectedSort(states.value.internalState.isSorted, resultRate)
@@ -116,7 +129,8 @@ class MainViewModel @Inject constructor(
                     showMessage(exception.message.toString())
                 }
                 .collect { result ->
-                    states.value = stateReducer.hideLoading()
+                    states.emit(stateReducer.hideLoading())
+                    states.emit(stateReducer.refresh(false))
                     when (result) {
                         is BaseResult.Success -> {
                             setSelectedSort(states.value.internalState.isSorted, result.data.rates)

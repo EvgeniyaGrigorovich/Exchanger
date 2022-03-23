@@ -49,6 +49,11 @@ sealed class MainScreenGlobalState {
      * Начальный стейт
      */
     object INIT : MainScreenGlobalState()
+
+    /**
+     * Стостояние обновления
+     */
+    data class REFRESHING(val isRefresh: Boolean): MainScreenGlobalState()
 }
 
 /**
