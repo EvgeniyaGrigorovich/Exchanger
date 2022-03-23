@@ -1,5 +1,7 @@
 package com.devgenius.exchanger.presentation.states
 
+import com.devgenius.exchanger.domain.entity.Rate
+
 /**
  * Класс отвечающий за состояние главного экрана
  *
@@ -22,7 +24,8 @@ data class MainScreenViewState(
 data class MainScreenInternalState(
     val isFavouriteScreen: Boolean,
     val isSorted: SortedState,
-    val currency: String
+    val currency: String,
+    val currencyToDelete: Rate? = null
 )
 
 /**
@@ -53,7 +56,12 @@ sealed class MainScreenGlobalState {
     /**
      * Стостояние обновления
      */
-    data class REFRESHING(val isRefresh: Boolean): MainScreenGlobalState()
+    data class REFRESHING(val isRefresh: Boolean) : MainScreenGlobalState()
+
+    /**
+     * Состояния показа диалога
+     */
+    data class SHOW_DIALOG_TO_DELETE(val rate: Rate) : MainScreenGlobalState()
 }
 
 /**

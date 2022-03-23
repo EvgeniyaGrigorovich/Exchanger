@@ -11,14 +11,14 @@ import android.widget.PopupMenu
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.lifecycle.lifecycleScope
-import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.devgenius.exchanger.R
 import com.devgenius.exchanger.databinding.ActivityMainBinding
 import com.devgenius.exchanger.domain.action.MainScreenAction
+import com.devgenius.exchanger.domain.entity.Rate
 import com.devgenius.exchanger.presentation.adapter.CurrencyItemAdapter
+import com.devgenius.exchanger.presentation.dialog.RemoveDialogFragment
 import com.devgenius.exchanger.utils.extension.gone
 import com.devgenius.exchanger.utils.extension.visible
 import com.devgenius.exchanger.presentation.states.MainScreenGlobalState
@@ -34,6 +34,7 @@ class MainActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener {
     private val binding: ActivityMainBinding by viewBinding()
     private val currencyAdapter by lazy { CurrencyItemAdapter(listOf()) }
     private val spinnerList = mutableListOf("EUR")
+    private val dialog = RemoveDialogFragment()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -58,6 +59,32 @@ class MainActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener {
             viewModel.mainScreenSymbol.collect {
                 spinnerList.addAll(it)
             }
+        }
+    }
+
+
+    private fun observeProducts() {
+        lifecycleScope.launch {
+            viewModel.mainScreenRates
+                .collect { rates ->
+                    if (rates.isNotEmpty()) {
+                        binding.currencyRecycler.adapter.let {
+                            if (it is CurrencyItemAdapter) {
+                                it.setList(rates)
+                            }
+                        }
+                        binding.currencyRecycler.smoothScrollToPosition(1)
+                    }
+                }
+        }
+    }
+
+    private fun observeState() {
+        lifecycleScope.launch {
+            viewModel.mainScreenState
+                .collect { state ->
+                    handleState(state.globalState)
+                }
         }
     }
 
@@ -86,30 +113,9 @@ class MainActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener {
         binding.swiperefresh.setOnRefreshListener {
             viewModel.executeAction(MainScreenAction.Refresh)
         }
-    }
 
-    private fun observeProducts() {
-        lifecycleScope.launch {
-            viewModel.mainScreenRates
-                .collect { rates ->
-                    if (rates.isNotEmpty()) {
-                        binding.currencyRecycler.adapter.let {
-                            if (it is CurrencyItemAdapter) {
-                                it.setList(rates)
-                            }
-                        }
-                        binding.currencyRecycler.smoothScrollToPosition(1)
-                    }
-                }
-        }
-    }
-
-    private fun observeState() {
-        lifecycleScope.launch {
-            viewModel.mainScreenState
-                .collect { state ->
-                    handleState(state.globalState)
-                }
+        currencyAdapter.onLongClickListener = { rate ->
+            viewModel.executeAction(MainScreenAction.LongClickAction(rate))
         }
     }
 
@@ -118,6 +124,18 @@ class MainActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener {
             is MainScreenGlobalState.LOADING -> handleLoading(state.isLoading)
             is MainScreenGlobalState.SHOW_MESSAGE -> showMessage(state.message)
             is MainScreenGlobalState.REFRESHING -> handleRefreshing(state.isRefresh)
+            is MainScreenGlobalState.SHOW_DIALOG_TO_DELETE -> showDialogToDelete(state.rate)
+        }
+    }
+
+    private fun showDialogToDelete(rate: Rate) {
+        dialog.show(supportFragmentManager, RemoveDialogFragment.TAG)
+        dialog.onCancelClickListener = {
+            dialog.dismiss()
+        }
+
+        dialog.onDeleteCurrencyClickListener = {
+            viewModel.executeAction(MainScreenAction.DeleteCurrency(rate))
         }
     }
 
@@ -225,5 +243,4 @@ class MainActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener {
     }
 
     override fun onNothingSelected(parent: AdapterView<*>?) {}
-
 }

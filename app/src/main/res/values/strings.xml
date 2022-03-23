@@ -20,7 +20,11 @@
     <!-- error -->
     <string name="cannot_download_favourites">Не удалось загрузить актуальные данные по избранным валютам</string>
     <string name="cannot_download_currency">Не удалось загрузить данные по валютам</string>
- >
+
+    <!-- dialog-->
+    <string name="delete_action">Remove from favourites?</string>
+    <string name="delete">Remove</string>
+    <string name="cancel">Cancel</string>
 
 
 </resources>

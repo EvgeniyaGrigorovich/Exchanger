@@ -1,9 +1,6 @@
 package com.devgenius.exchanger.data.local.db
 
-import androidx.room.Dao
-import androidx.room.Insert
-import androidx.room.OnConflictStrategy
-import androidx.room.Query
+import androidx.room.*
 import com.devgenius.exchanger.data.local.db.dbmodel.RateDbModel
 import kotlinx.coroutines.flow.Flow
 
@@ -26,4 +23,10 @@ interface RatesDao {
      */
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun saveRate(rate: RateDbModel)
+
+    /**
+     * Метод удаления валюты из избранного
+     */
+    @Query("DELETE FROM rates_table WHERE currency = :rate")
+    suspend fun deleteRate(rate: String)
 }

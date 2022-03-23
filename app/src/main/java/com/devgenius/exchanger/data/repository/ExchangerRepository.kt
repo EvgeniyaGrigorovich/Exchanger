@@ -50,13 +50,20 @@ internal class ExchangerRepository(
         return rateDbModelToRateConverter.convert(localStorage.getFavouritesRates())
     }
 
+    override suspend fun deleteCurrencyFromLocal(rate: Rate) {
+        localStorage.deleteFromFavourite(rate = rate.currency)
+    }
+
     override suspend fun addCurrencyToFavourite(rate: Rate) {
         localStorage.saveFavouriteRate(
             rateToRateDbModelConverter.convert(rate)
         )
     }
 
-    override suspend fun getFavouriteCurrencyFromRemote(base: String, list: List<Rate>): Flow<BaseResult<Currency>> {
+    override suspend fun getFavouriteCurrencyFromRemote(
+        base: String,
+        list: List<Rate>
+    ): Flow<BaseResult<Currency>> {
         return flow {
             val response = remoteStorage.getFavouriteCurrencyFromRemote(
                 base = base,

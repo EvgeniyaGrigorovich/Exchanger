@@ -7,23 +7,20 @@ import com.devgenius.exchanger.domain.action.MainScreenAction
 import com.devgenius.exchanger.domain.common.SymbolsResult
 import com.devgenius.exchanger.domain.common.BaseResult
 import com.devgenius.exchanger.domain.entity.Rate
-import com.devgenius.exchanger.domain.usecase.GetAllCurrenciesUseCase
-import com.devgenius.exchanger.domain.usecase.GetAllCurrencySymbolsUseCase
-import com.devgenius.exchanger.domain.usecase.GetFavouriteCurrenciesUseCase
-import com.devgenius.exchanger.domain.usecase.SaveCurrencyToFavouritesUseCase
-import com.devgenius.exchanger.presentation.states.MainScreenInternalState
+import com.devgenius.exchanger.domain.usecase.*
+import com.devgenius.exchanger.presentation.reducer.MainScreenViewStateReducer
 import com.devgenius.exchanger.presentation.states.MainScreenViewState
 import com.devgenius.exchanger.presentation.states.SortedState
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import javax.inject.Inject
-import kotlin.math.sign
 
 class MainViewModel @Inject constructor(
     private val getAllCurrenciesUseCase: GetAllCurrenciesUseCase,
     private val getFavouriteCurrenciesUseCase: GetFavouriteCurrenciesUseCase,
     private val saveCurrencyToFavouritesUseCase: SaveCurrencyToFavouritesUseCase,
     private val symbolsCurrencyUseCase: GetAllCurrencySymbolsUseCase,
+    private val deleteFromFavouriteUseCase: DeleteFromFavouriteUseCase,
     private val stateReducer: MainScreenViewStateReducer
 ) : AndroidViewModel(Application()) {
 
@@ -58,6 +55,20 @@ class MainViewModel @Inject constructor(
             is MainScreenAction.SaveToFavourites -> saveToFavourite(action.rate)
             is MainScreenAction.ChangeCurrency -> changeCurrency(action.currency)
             is MainScreenAction.Refresh -> refreshData()
+            is MainScreenAction.LongClickAction -> executeLongClick(action.rate)
+            is MainScreenAction.DeleteCurrency -> deleteFromFavourite(action.currency)
+        }
+    }
+
+    private fun executeLongClick(rate: Rate) {
+        if (states.value.internalState.isFavouriteScreen) {
+            states.value = stateReducer.showDialogToDeleteRate(rate)
+        }
+    }
+
+    private fun deleteFromFavourite(currency: Rate) {
+        viewModelScope.launch {
+            deleteFromFavouriteUseCase.deleteCurrencyFromLocal(currency)
         }
     }
 

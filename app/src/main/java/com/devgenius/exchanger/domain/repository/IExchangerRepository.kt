@@ -42,4 +42,9 @@ interface IExchangerRepository {
      * Получить список избранных валют из базы данных
      */
     suspend fun getCurrencyFromLocal(): Flow<List<Rate>>
+
+    /**
+     * Удалить валюту из избранного
+     */
+    suspend fun  deleteCurrencyFromLocal(rate: Rate)
 }

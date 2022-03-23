@@ -20,6 +20,15 @@ sealed class MainScreenAction {
     ) : MainScreenAction()
 
     /**
+     * Намерение удалить влалюту из избранного
+     *
+     * @param currency валюта для удаления
+     */
+    data class DeleteCurrency(
+        val currency: Rate
+    ) : MainScreenAction()
+
+    /**
      * Намерение открыть вкладку со всеми загруженнымт валютами
      *
      * @param sortedState состояние сортировки
@@ -55,6 +64,11 @@ sealed class MainScreenAction {
     data class ChangeCurrency(
         val currency: String
     ) : MainScreenAction()
+
+    /**
+     * Намерение произвести долгий клк по айтему
+     */
+    data class LongClickAction(val rate: Rate): MainScreenAction()
 
     /**
      * Намерение обновить данные

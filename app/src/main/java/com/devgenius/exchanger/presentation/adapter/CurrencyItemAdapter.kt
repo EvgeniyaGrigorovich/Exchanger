@@ -1,5 +1,6 @@
 package com.devgenius.exchanger.presentation.adapter
 
+import android.view.MotionEvent
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
@@ -14,6 +15,7 @@ internal class CurrencyItemAdapter(
    private var rateList: List<Rate>
 ) : RecyclerView.Adapter<RateViewHolder>() {
     var onSaveRateClickListener: ((Rate) -> Unit)? = null
+    var onLongClickListener: ((Rate) -> Unit)? = null
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RateViewHolder {
         return RateViewHolder.from(parent)
@@ -27,6 +29,11 @@ internal class CurrencyItemAdapter(
 
         holder.buttonFavourites.setOnClickListener {
             onSaveRateClickListener?.invoke(rate)
+        }
+
+        holder.itemView.setOnLongClickListener {
+            onLongClickListener?.invoke(rate)
+            true
         }
     }
 

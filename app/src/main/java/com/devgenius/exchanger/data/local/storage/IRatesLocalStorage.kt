@@ -1,6 +1,7 @@
 package com.devgenius.exchanger.data.local.storage
 
 import com.devgenius.exchanger.data.local.db.dbmodel.RateDbModel
+import com.devgenius.exchanger.domain.entity.Rate
 import kotlinx.coroutines.flow.Flow
 
 /**
@@ -21,5 +22,12 @@ interface IRatesLocalStorage {
      * Метод получения списка избранных валют
      */
     suspend fun getFavouritesRates(): Flow<List<RateDbModel>>
+
+    /**
+     * Метод удаления избранных валют
+     *
+     * @param rate наименование валюты для удаления
+     */
+    suspend fun deleteFromFavourite(rate: String)
 
 }
