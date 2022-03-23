@@ -69,11 +69,12 @@
                 android:id="@+id/button_add_to_favourite"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/ic_baseline_star_24"
+                android:src="@drawable/ic_baseline_star_rate_24"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="@+id/guideline2"
                 app:layout_constraintTop_toTopOf="parent"
+                android:backgroundTint="@color/white"
                 android:adjustViewBounds="true"/>
 
         </androidx.constraintlayout.widget.ConstraintLayout>

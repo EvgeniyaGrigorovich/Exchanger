@@ -18,7 +18,9 @@
             android:layout_height="wrap_content"
             app:layout_constraintBottom_toTopOf="@id/guideline4"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            android:layout_marginStart="@dimen/margin_large"
+           />
 
         <TextView
             android:id="@+id/textViewSortBy"
