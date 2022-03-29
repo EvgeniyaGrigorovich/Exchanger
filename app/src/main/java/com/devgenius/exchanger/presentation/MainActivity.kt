@@ -24,7 +24,6 @@ import com.devgenius.exchanger.utils.extension.visible
 import com.devgenius.exchanger.presentation.states.MainScreenGlobalState
 import com.devgenius.exchanger.presentation.states.SortedState
 import com.devgenius.exchangerdi.app.App
-import kotlinx.coroutines.launch
 
 class MainActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener {
 
@@ -55,7 +54,7 @@ class MainActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener {
     }
 
     private fun observeSymbols() {
-        lifecycleScope.launch {
+        lifecycleScope.launchWhenStarted {
             viewModel.mainScreenSymbol.collect {
                 spinnerList.addAll(it)
             }
@@ -64,7 +63,7 @@ class MainActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener {
 
 
     private fun observeProducts() {
-        lifecycleScope.launch {
+        lifecycleScope.launchWhenStarted {
             viewModel.mainScreenRates
                 .collect { rates ->
                     if (rates.isNotEmpty()) {
@@ -80,7 +79,7 @@ class MainActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener {
     }
 
     private fun observeState() {
-        lifecycleScope.launch {
+        lifecycleScope.launchWhenStarted {
             viewModel.mainScreenState
                 .collect { state ->
                     handleState(state.globalState)
@@ -217,7 +216,6 @@ class MainActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener {
                             sortedState = viewModel.mainScreenState.value.internalState.isSorted
                         )
                     )
-
                 }
                 true
             }

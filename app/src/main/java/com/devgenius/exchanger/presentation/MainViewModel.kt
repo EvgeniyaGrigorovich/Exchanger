@@ -92,7 +92,7 @@ class MainViewModel @Inject constructor(
 
     private fun getFavouriteCurrencies() {
         viewModelScope.launch {
-            states.emit(stateReducer.setupFavouritesState())
+            states.value = stateReducer.setupFavouritesState()
 
             getFavouriteCurrenciesUseCase.getFromLocal()
                 .collect { resultRate ->
@@ -105,8 +105,8 @@ class MainViewModel @Inject constructor(
                         states.value = stateReducer.hideLoading()
                         showMessage(exception.message.toString())
                     }.collect { resultCurrency ->
-                        states.emit(stateReducer.hideLoading())
-                        states.emit(stateReducer.refresh(false))
+                        states.value = stateReducer.hideLoading()
+                        states.value = stateReducer.refresh(false)
                         when (resultCurrency) {
                             is BaseResult.Success -> {
                                 setSelectedSort(
@@ -128,7 +128,7 @@ class MainViewModel @Inject constructor(
 
     private fun getAllCurrencies() {
         viewModelScope.launch {
-            states.emit(stateReducer.showAllCurrencyState())
+            states.value = stateReducer.showAllCurrencyState()
 
             getAllCurrenciesUseCase.invoke(
                 base = states.value.internalState.currency
@@ -140,8 +140,8 @@ class MainViewModel @Inject constructor(
                     showMessage(exception.message.toString())
                 }
                 .collect { result ->
-                    states.emit(stateReducer.hideLoading())
-                    states.emit(stateReducer.refresh(false))
+                    states.value = stateReducer.hideLoading()
+                    states.value = stateReducer.refresh(false)
                     when (result) {
                         is BaseResult.Success -> {
                             setSelectedSort(states.value.internalState.isSorted, result.data.rates)
@@ -156,14 +156,14 @@ class MainViewModel @Inject constructor(
 
     private fun saveToFavourite(rate: Rate) {
         viewModelScope.launch {
-            states.emit(stateReducer.saveToFavouriteState())
+            states.value = stateReducer.saveToFavouriteState()
             saveCurrencyToFavouritesUseCase.invoke(rate)
         }
     }
 
     private fun setSelectedSort(newSortedState: SortedState, ratesList: List<Rate>) {
         viewModelScope.launch {
-            states.emit(stateReducer.setSelectedSortState(newSortedState))
+            states.value = stateReducer.setSelectedSortState(newSortedState)
 
             val newList = mutableListOf<Rate>()
             when (newSortedState) {
@@ -193,7 +193,7 @@ class MainViewModel @Inject constructor(
                     )
                 }
             }
-            rates.emit(newList)
+            rates.value = newList
         }
     }
 
